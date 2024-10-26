@@ -1,0 +1,28 @@
+.containerLogin {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgLogin {
+  background: linear-gradient(180deg, #FE8209 0%, #F8CB2E 100%);
+  border-radius: 5px;
+}
+
+.loginForm {
+  border-radius: 10px;
+  margin: 10px;
+  background-color: #E9E9E9;
+  padding: 10px;
+}
+
+.loginInput {
+  margin: 10px 0;
+}
+
+.containerButton {
+  display: flex;
+  justify-content: center;
+}
