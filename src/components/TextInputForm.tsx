@@ -8,9 +8,12 @@ interface FormInputProps {
   control: any; 
   label?: string
   onChange?: (e: any) => void;
+  variantType?: string;
+  customStyle?: string;
+  inputType?: string;
 }
 
-const TextInputForm = ({ name, control, label,  }: FormInputProps) => {
+const TextInputForm = ({ name, control, label, customStyle, variantType = 'standard', inputType='text'  }: FormInputProps) => {
   return (
     <Controller
       name={name}
@@ -26,9 +29,18 @@ const TextInputForm = ({ name, control, label,  }: FormInputProps) => {
           error={!!error}
           onChange={onChange}
           value={value}
+          type={inputType}
           fullWidth
           label={label}
-          variant="outlined"
+          className={customStyle}
+          variant={variantType as "standard" | "outlined" | "filled"}
+          sx={{
+            "& .MuiInputLabel-standard": {
+              color: "#7f7f7f",
+              fontWeight: 400,
+              fontStyle: 'italic',
+            },
+          }}
         />
       )}
     />

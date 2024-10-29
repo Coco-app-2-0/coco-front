@@ -4,18 +4,35 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(180deg, #FE8209 0%, #F8CB2E 100%);
 }
 
 .bgLogin {
-  background: linear-gradient(180deg, #FE8209 0%, #F8CB2E 100%);
-  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.logiImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loginForm {
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 40px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  width: 446.26px;
+  height: 360px;
   margin: 10px;
-  background-color: #E9E9E9;
-  padding: 10px;
+  flex: none;
+  order: 1;
+  flex-grow: 1;
 }
 
 .loginInput {
@@ -23,6 +40,14 @@
 }
 
 .containerButton {
+  width: 100%;
   display: flex;
   justify-content: center;
 }
+
+
+
+
+
+
+
