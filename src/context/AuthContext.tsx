@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
 interface AuthContextType {
   userInfo: string | null;
@@ -8,8 +8,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userInfo, setUserInfo] = useState<string | null>(localStorage.getItem('token'));
-
+  const [userInfo, setUserInfo] = useState<string | null>('');
   return (
     <AuthContext.Provider value={{ userInfo, setUserInfo }}>
       {children}
