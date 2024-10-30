@@ -1,13 +1,13 @@
 import { TextField } from '@mui/material';
 import React from 'react'
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 
 
 interface FormInputProps {
   name: string;
-  control: any; 
+  control: unknown; 
   label?: string
-  onChange?: (e: any) => void;
+  onChange?: (e: unknown) => void;
   variantType?: string;
   customStyle?: string;
   inputType?: string;
@@ -17,11 +17,10 @@ const TextInputForm = ({ name, control, label, customStyle, variantType = 'stand
   return (
     <Controller
       name={name}
-      control={control}
+      control={control as Control<FieldValues>}
       render={({
         field: { onChange, value },
-        fieldState: { error },
-        formState,
+        fieldState: { error }
       }) => (
         <TextField
           helperText={error ? error.message : null}

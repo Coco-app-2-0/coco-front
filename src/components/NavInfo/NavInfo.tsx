@@ -1,17 +1,15 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from './NavInfo.module.css'
 import { Avatar, Typography, IconButton } from '@mui/material';
 import { stringAvatar } from '@/utils/avatarText';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 interface NavInfoProps {
-  avatar?: ReactNode;
   storeName: string;
   schedule: string;
-  statusOpen: boolean;
 }
 
-const NavInfo = ({avatar, storeName, schedule, statusOpen}: NavInfoProps) => {
+const NavInfo = ({storeName, schedule}: NavInfoProps) => {
   return (
     <section className={styles.navinfo}>
       <div className={styles.containerInfo}>

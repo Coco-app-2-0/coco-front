@@ -3,8 +3,8 @@ import Image from 'next/image'
 import React from 'react'
 import LogoCoco from '../../assets/images/logo-coco.svg'
 import styles from './login.module.css'
-import { Button, Input, InputLabel, TextField, Typography } from '@mui/material'
-import { Controller, useForm } from 'react-hook-form'
+import { Button, Typography } from '@mui/material'
+import { useForm } from 'react-hook-form'
 
 import TextInputForm from '@/components/TextInputForm'
 import { authLogin } from '../apis/login/login'
@@ -16,16 +16,18 @@ const defaultValues = {
 
 const Login = () => {
 
-  const handleChange = (e) => {
-    console.log(e)
-  }
-
-  const onSubmit = (data: any) => {
-    const auth = authLogin(data)
+  // const handleChange = (e) => {
+  //   console.log(e)
+  // }
+  const onSubmit = async (data: {username: string, password: string}) => {
+    const auth = await authLogin(data)
     console.log(auth)
   };
 
-  const { handleSubmit, reset, control, setValue, register } = useForm<any>({
+  const { handleSubmit, control } = useForm<{
+    username: string;
+    password: string;
+  }>({
     defaultValues: defaultValues,
   });
 
