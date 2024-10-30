@@ -35,6 +35,12 @@ a {
   text-decoration: none;
 }
 
+input::placeholder {
+  text-overflow: ellipsis !important;
+  color: 'lime'
+}
+
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

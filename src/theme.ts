@@ -4,7 +4,10 @@ import { Montserrat } from 'next/font/google'
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Montserrat"
+    fontFamily: "Montserrat",
+    allVariants: {
+      color: "black"
+    },
   },
   palette: {
     // Aquí debes definir tu paleta de colores

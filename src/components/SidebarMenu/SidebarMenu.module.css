@@ -1,0 +1,42 @@
+.sidebarMenu {
+  width: 250px;
+  transition: width 0.3s;
+  background-color: #f8f9fa;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.open {
+  width: 250px;
+}
+
+.closed {
+  width: 60px; /* Solo muestra iconos */
+}
+
+.toggleButton {
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 10px;
+}
+
+/* Cambia el selector para que sea puro */
+.sidebarMenu nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarMenu nav ul li {
+  padding: 15px;
+}
+
+.sidebarMenu nav ul li a {
+  text-decoration: none;
+  color: #333;
+}
