@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react';
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
@@ -6,7 +7,9 @@ import theme from '../theme';
 import "./globals.css";
 import SidebarMenu from "@/components/SidebarMenu/SidebarMenu";
 import { useState } from 'react';
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
+import { AuthProvider } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 // export const metadata: Metadata = {
 //   title: "CocoApp",
@@ -17,21 +20,30 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) { // Obtén el token del contexto
+  const router = useRouter(); // Inicializa el enrutador
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname()
 
   const handleToggleSidebar = (isOpen: boolean) => {
     setIsSidebarOpen(isOpen);
   };
+  useEffect(() => {
+    if (pathname !== '/login') {
+      router.push('/login');
+    }
+  }, [pathname, router]);
 
   return (
     <ThemeProvider theme={theme}>
       <html lang="en">
         <AppRouterCacheProvider>
           <body>
-          {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} />}
-          <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>              {children}
+            {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} />}
+            <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
+            <AuthProvider>
+              {children}
+            </AuthProvider>
             </main>
           </body>
         </AppRouterCacheProvider>

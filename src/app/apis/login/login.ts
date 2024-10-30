@@ -11,10 +11,6 @@ export const authLogin = async (data: dataLogin) => {
   const auth = await axios.post('https://cocoapp.com.mx/sandbox/controller/controller_login.php', data)
   console.log('poke auth', auth)
   return auth
-  // try {
-  // } catch (error) {
-  //   console.error(error)
-  // }
 }
 
 
