@@ -37,7 +37,6 @@ const TextInputForm = ({ name, control, label, customStyle, variantType = 'stand
             "& .MuiInputLabel-standard": {
               color: "#7f7f7f",
               fontWeight: 400,
-              fontStyle: 'italic',
             },
           }}
         />

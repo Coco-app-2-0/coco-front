@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
 import LogoCoco from '../../assets/images/logo-coco.svg'
 import styles from './login.module.css'
 import { Button, Typography } from '@mui/material'
@@ -9,8 +9,10 @@ import { useForm } from 'react-hook-form'
 import TextInputForm from '@/components/TextInputForm'
 import { authLogin } from '../apis/login/login'
 
+import { AuthContext } from '@/context/AuthContext' 
+
 const defaultValues = {
-  email: '',
+  userName: '',
   password: ''
 }
 
@@ -19,9 +21,15 @@ const Login = () => {
   // const handleChange = (e) => {
   //   console.log(e)
   // }
+
+  const { setUserInfo } = useContext(AuthContext)
   const onSubmit = async (data: {username: string, password: string}) => {
     const auth = await authLogin(data)
-    console.log(auth)
+    if (auth && setUserInfo) {
+      setUserInfo(data)
+      console.log(auth)
+    }
+
   };
 
   const { handleSubmit, control } = useForm<{
@@ -55,7 +63,7 @@ const Login = () => {
               label={"E-mail"}
             /> */}
             <TextInputForm
-              name={"email"}
+              name={"userName"}
               control={control}
               label={"Nombre de usuario"}
             />

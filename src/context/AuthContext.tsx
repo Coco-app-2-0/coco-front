@@ -2,10 +2,10 @@ import React, { createContext, useState, ReactNode } from 'react';
 
 interface AuthContextType {
   userInfo: string | null;
-  setUserInfo: (token: string | null) => void;
+  setUserInfo: (info: any) => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [userInfo, setUserInfo] = useState<string | null>('');
