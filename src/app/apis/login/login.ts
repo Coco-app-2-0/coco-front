@@ -8,9 +8,15 @@ interface dataLogin {
 
 export const authLogin = async (data: dataLogin) => {
   console.log(data)
-  const auth = await axios.post('https://cocoapp.com.mx/sandbox/controller/controller_login.php', data)
-  console.log('poke auth', auth)
-  return auth
+  try {
+    const auth = await axios.post('https://cocoapp.com.mx/sandbox/controller/controller_login.php/login', data)
+    console.log('poke auth', auth)
+    if (auth.status === 200) {
+      return auth.data
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 

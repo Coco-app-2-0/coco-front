@@ -1,7 +1,7 @@
 import NavInfo from '@/components/NavInfo/NavInfo'
 import React from 'react'
 
-const Home = () => {
+const Main = () => {
   return (
     <>
       <section>
@@ -11,4 +11,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Main
