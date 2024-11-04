@@ -131,3 +131,7 @@ flex-grow: 0;
 .containCompleteFood {
   padding: 0 20px;
 }
+
+.containerTicket {
+  padding: 0 10px;
+}

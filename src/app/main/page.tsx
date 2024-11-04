@@ -9,6 +9,7 @@ import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
 import { Button, Tab, Tabs, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Ticket from '@/components/Ticket/Ticket';
 
 const Main = () => {
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
@@ -77,8 +78,8 @@ const Main = () => {
   };
 
   const handleCategoryClick = (id: string, index: number) => {
-    setActiveIndexCat(index); // Actualizar el índice activo
-    getProductsList(id); // Obtener productos de la categoría seleccionada
+    setActiveIndexCat(index);
+    getProductsList(id);
   };
 
 
@@ -141,6 +142,9 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Typography variant='h3'>Ticket</Typography>
+          <Ticket>
+            
+          </Ticket>
         </div>
       </section>
     </>
