@@ -1,13 +1,31 @@
 .navinfo {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   height: 3rem;
+  margin: 10px 0;
 }
 
-.containerInfo {
-  width: 50%;
+.infoTurn {
   display: flex;
+  flex-direction: column;
+  padding: 6px 24px 6px 24px;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+}
+
+.infoOrder {
+  width: 70%;
+  display: flex;
+  padding: 4px 24px 4px 24px;
+  border-radius: 6px;
+  border: 1px;
+  justify-content: space-between;
+  background-color: #F9F9F9;
+}
+.queueInfo {
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -16,4 +34,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: start;
+}
+
+.inputSearchOrder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  padding: 5px;
+  border: 1px solid #3F8E00;
+  border-radius: 6px;
+}
+
+.inputSearch {
+  border: none;
+  padding: 100px;
+}
+
+.historyIcon {
+  color: #3F8E00;
+  align-self: center;
 }

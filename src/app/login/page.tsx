@@ -7,9 +7,10 @@ import { Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
 import TextInputForm from '@/components/TextInputForm'
-import { authLogin } from '../apis/login/login'
+import { authLogin } from '../../apis/login/login'
 
 import { AuthContext } from '@/context/AuthContext' 
+import { useRouter } from 'next/navigation'
 
 const defaultValues = {
   userName: '',
@@ -18,26 +19,33 @@ const defaultValues = {
 
 const Login = () => {
 
-  // const handleChange = (e) => {
-  //   console.log(e)
-  // }
+  const router = useRouter()
 
   const { setUserInfo } = useContext(AuthContext)
-  const onSubmit = async (data: {username: string, password: string}) => {
-    const auth = await authLogin(data)
-    if (auth && setUserInfo) {
-      setUserInfo(data)
-      console.log(auth)
-    }
 
+  const onSubmit = async (data: {userName: string, password: string}) => {
+    const auth = await authLogin(data);
+    if (auth) {
+      console.log('auth', auth);
+      setUserInfo(auth);
+      localStorage.setItem('userInfo', JSON.stringify(auth)); // Guardar en localStorage
+      router.push('/main');
+    }
   };
 
   const { handleSubmit, control } = useForm<{
-    username: string;
+    userName: string;
     password: string;
   }>({
     defaultValues: defaultValues,
   });
+
+  React.useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      router.push('/main'); // Redirigir si ya hay datos
+    }
+  }, [router]);
 
   return (
     <section className={styles.containerLogin}>
@@ -66,6 +74,13 @@ const Login = () => {
               name={"userName"}
               control={control}
               label={"Nombre de usuario"}
+              textFieldSx={{
+                "& .MuiInputLabel-outlined": {
+                  color: "#7f7f7f",
+                  fontWeight: 400,
+                },
+                // Otros estilos personalizados
+              }}
             />
           </div>
           <div className={styles.loginInput} >
@@ -74,6 +89,13 @@ const Login = () => {
               name={"password"}
               control={control}
               label={"Password"}
+              textFieldSx={{
+                "& .MuiInputLabel-outlined": {
+                  color: "#7f7f7f",
+                  fontWeight: 400,
+                },
+                // Otros estilos personalizados
+              }}
             />
           </div>
           <div className={styles.containerButton}>
