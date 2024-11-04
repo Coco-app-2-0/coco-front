@@ -6,12 +6,12 @@ import { CategoryTypes } from '@/utils/types'
 
 interface CategoryListProps {
   categories: CategoryTypes[]
-  clickItem: (id: string, index:number) => void
+  clickItem: (id: number, index:number) => void
   activeIndex: number
 }
 
 const CategoryList = ({categories, clickItem, activeIndex}: CategoryListProps ) => {
-  const handleClick = (id: string, index: number) => {
+  const handleClick = (id: number, index: number) => {
     clickItem(id, index);
   };
 
@@ -20,7 +20,7 @@ const CategoryList = ({categories, clickItem, activeIndex}: CategoryListProps ) 
       {categories.map((category, i) => (
         <div
           className={`${style.categoryItem} ${activeIndex === i ? style.active : ''}`} // Aplicar clase activa
-          key={i}
+          key={category.id}
           onClick={() => handleClick(category.id, i)}
         >
           <Image 

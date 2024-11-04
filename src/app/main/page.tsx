@@ -41,7 +41,13 @@ const Main = () => {
       const storedUserInfo = localStorage.getItem('userInfo');
       if (storedUserInfo) {
         const parsedUserInfo = JSON.parse(storedUserInfo);
-        setUserInfo(parsedUserInfo); 
+        if (parsedUserInfo) {
+          if (setUserInfo) { // Verifica que setUserInfo no sea undefined
+            setUserInfo(parsedUserInfo);
+          }
+        } else {
+          router.push('/login');
+        }
       } else {
         router.push('/login');
       }
@@ -57,13 +63,13 @@ const Main = () => {
     if (userInfo) {
       getDataCategories(userInfo.idTienda).then(() => {
         if (categories.length > 0 && products.length === 0) { // Verifica que products esté vacío
-          getProductsList(categories[0].id.toString()); // Llama a getProductsList con el primer elemento de categories
+          getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
         }
       });
     }
   }, [userInfo]);
 
-  const getProductsList = async (id: string) => {
+  const getProductsList = async (id: number) => {
     setLoading(true)
     try {
       if (userInfo?.idTienda) {
@@ -78,7 +84,7 @@ const Main = () => {
     }
   };
 
-  const handleCategoryClick = (id: string, index: number) => {
+  const handleCategoryClick = (id: number, index: number) => {
     setActiveIndexCat(index);
     getProductsList(id);
   };

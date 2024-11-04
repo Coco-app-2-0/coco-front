@@ -36,8 +36,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
                         text="Home"
                         href={'/main'}
                         icon={<HomeIcon style={{ fontSize: '2rem' }} />} // Aumentar tamaño del ícono
-                        isCollapsed={!isOpen}
-                        onClick={handleItemClick} // Manejar clic en el ítem
+                        isCollapsed={!isOpen} // Manejar clic en el ítem
                         isActive={pathname === '/main'}                    />
                     {/* Agrega más enlaces según sea necesario */}
                 </ul>
