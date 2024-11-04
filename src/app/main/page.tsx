@@ -7,18 +7,19 @@ import styles from './main.module.css'
 import Loading from '@/components/Loading/Loading';
 import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
-import { Button, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Ticket from '@/components/Ticket/Ticket';
+import { CategoryTypes, ProductTypes } from '@/utils/types';
 
 const Main = () => {
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
   const pathname = usePathname()
   const router = useRouter(); 
-  const [categories, setCategories] = useState<any[]>([])
+  const [categories, setCategories] = useState<CategoryTypes[]>([])
   const [valueTab, setValueTab] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
-  const [products, setProducts] = useState<any[]>([])
+  const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
 
   const getDataCategories = async (idTienda: number) => {
@@ -56,7 +57,7 @@ const Main = () => {
     if (userInfo) {
       getDataCategories(userInfo.idTienda).then(() => {
         if (categories.length > 0 && products.length === 0) { // Verifica que products esté vacío
-          getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
+          getProductsList(categories[0].id.toString()); // Llama a getProductsList con el primer elemento de categories
         }
       });
     }
@@ -143,7 +144,7 @@ const Main = () => {
         <div className={styles.containerTicket}>
           <Typography variant='h3'>Ticket</Typography>
           <Ticket>
-            
+
           </Ticket>
         </div>
       </section>

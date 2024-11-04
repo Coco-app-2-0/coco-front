@@ -1,11 +1,11 @@
 import React from 'react'
-import { styleText } from 'util'
 import style from './categorylist.module.css'
 import { Typography } from '@mui/material'
 import Image from 'next/image'
+import { CategoryTypes } from '@/utils/types'
 
 interface CategoryListProps {
-  categories: any[]
+  categories: CategoryTypes[]
   clickItem: (id: string, index:number) => void
   activeIndex: number
 }
