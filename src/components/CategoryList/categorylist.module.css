@@ -1,0 +1,29 @@
+.scrollableContainer {
+  max-height: 80%; /* Ajusta la altura según sea necesario */
+  overflow-y: auto;
+  scrollbar-color:  #c1c1c18c transparent;
+  padding: 10px; /* Espaciado interno */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 122px;
+  height: 96px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  margin: 5px 0;
+}
+
+.icon {
+  margin-right: 10px;
+}
+

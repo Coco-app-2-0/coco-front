@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form';
 
@@ -11,9 +11,19 @@ interface FormInputProps {
   variantType?: string;
   customStyle?: string;
   inputType?: string;
+  textFieldSx?: object;
 }
 
-const TextInputForm = ({ name, control, label, customStyle, variantType = 'standard', inputType='text'  }: FormInputProps) => {
+const TextInputForm = ({
+  name,
+  control,
+  label,
+  customStyle,
+  variantType = 'outlined',
+  inputType = 'text',
+  textFieldSx
+}: FormInputProps) => {
+
   return (
     <Controller
       name={name}
@@ -34,10 +44,7 @@ const TextInputForm = ({ name, control, label, customStyle, variantType = 'stand
           className={customStyle}
           variant={variantType as "standard" | "outlined" | "filled"}
           sx={{
-            "& .MuiInputLabel-standard": {
-              color: "#7f7f7f",
-              fontWeight: 400,
-            },
+            ...textFieldSx,
           }}
         />
       )}
