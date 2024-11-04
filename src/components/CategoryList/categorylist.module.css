@@ -23,7 +23,13 @@
   margin: 5px 0;
 }
 
-.icon {
-  margin-right: 10px;
+.iconCategoryActive {
+  background-color: #ffffff;
+  border-radius: 15px;
 }
 
+
+.active {
+  color: #ffffff;
+  background-color: #FE8209;
+}

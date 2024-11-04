@@ -11,15 +11,14 @@ import { Button, Tab, Tabs, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Main = () => {
-  const { userInfo } = useContext(AuthContext) || {}
+  const { userInfo, setUserInfo } = useContext(AuthContext) || {}
   const pathname = usePathname()
   const router = useRouter(); 
   const [categories, setCategories] = useState<any[]>([])
   const [valueTab, setValueTab] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<any[]>([])
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState<number>(0);
-  const { setUserInfo } = useContext(AuthContext)
+  const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -53,10 +52,16 @@ const Main = () => {
     if (userInfo) {
       getDataCategories(userInfo.idTienda)
     }
+    if (userInfo) {
+      getDataCategories(userInfo.idTienda).then(() => {
+        if (categories.length > 0 && products.length === 0) { // Verifica que products esté vacío
+          getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
+        }
+      });
+    }
   }, [userInfo]);
 
   const getProductsList = async (id: string) => {
-    console.log('poke de poke', userInfo?.idTienda);
     setLoading(true)
     try {
       if (userInfo?.idTienda) {
@@ -72,7 +77,7 @@ const Main = () => {
   };
 
   const handleCategoryClick = (id: string, index: number) => {
-    setActiveCategoryIndex(index); // Actualizar el índice activo
+    setActiveIndexCat(index); // Actualizar el índice activo
     getProductsList(id); // Obtener productos de la categoría seleccionada
   };
 
@@ -100,7 +105,7 @@ const Main = () => {
               valueTab === 0 ? (
                 <>
                 <div className={styles.containCategories}>
-              <CategoryList categories={categories} clickItem={(id) => handleCategoryClick(id, activeCategoryIndex)} activeIndex={activeCategoryIndex} />
+              <CategoryList categories={categories} clickItem={(id, categoryIndex) => handleCategoryClick(id, categoryIndex)} activeIndex={activeIndexCat} />
             </div>
             <div className={styles.containCompleteFood}>
               <div className={styles.titleCompleteFood}>

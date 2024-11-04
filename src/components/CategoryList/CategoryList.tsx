@@ -6,13 +6,13 @@ import Image from 'next/image'
 
 interface CategoryListProps {
   categories: any[]
-  clickItem: (id: string) => void
+  clickItem: (id: string, index:number) => void
   activeIndex: number
 }
 
 const CategoryList = ({categories, clickItem, activeIndex}: CategoryListProps ) => {
   const handleClick = (id: string, index: number) => {
-    clickItem(id);
+    clickItem(id, index);
   };
 
   return (
@@ -23,9 +23,15 @@ const CategoryList = ({categories, clickItem, activeIndex}: CategoryListProps ) 
           key={i}
           onClick={() => handleClick(category.id, i)}
         >
-          <div className={style.icon}>{category.icon}</div>
-          <Image src={category.logo} alt={category.nombre} width={30} height={30} />
-          <Typography variant='body2'>{category.nombre}</Typography>
+          <Image 
+            src={category.logo} 
+            alt={category.nombre}
+            width={30} height={30} 
+            className={ activeIndex === i ? style.iconCategoryActive : ''}
+            />
+          <Typography variant='body2' sx={{
+            color: activeIndex === i ? '#ffffff' : '#000000'
+          }}>{category.nombre}</Typography>
         </div>
       ))}
     </div>
