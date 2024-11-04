@@ -7,18 +7,19 @@ import styles from './main.module.css'
 import Loading from '@/components/Loading/Loading';
 import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
-import { Button, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Ticket from '@/components/Ticket/Ticket';
+import { CategoryTypes, ProductTypes } from '@/utils/types';
 
 const Main = () => {
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
   const pathname = usePathname()
   const router = useRouter(); 
-  const [categories, setCategories] = useState<any[]>([])
+  const [categories, setCategories] = useState<CategoryTypes[]>([])
   const [valueTab, setValueTab] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
-  const [products, setProducts] = useState<any[]>([])
+  const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
 
   const getDataCategories = async (idTienda: number) => {
@@ -40,7 +41,13 @@ const Main = () => {
       const storedUserInfo = localStorage.getItem('userInfo');
       if (storedUserInfo) {
         const parsedUserInfo = JSON.parse(storedUserInfo);
-        setUserInfo(parsedUserInfo); 
+        if (parsedUserInfo) {
+          if (setUserInfo) { // Verifica que setUserInfo no sea undefined
+            setUserInfo(parsedUserInfo);
+          }
+        } else {
+          router.push('/login');
+        }
       } else {
         router.push('/login');
       }
@@ -62,7 +69,7 @@ const Main = () => {
     }
   }, [userInfo]);
 
-  const getProductsList = async (id: string) => {
+  const getProductsList = async (id: number) => {
     setLoading(true)
     try {
       if (userInfo?.idTienda) {
@@ -77,7 +84,7 @@ const Main = () => {
     }
   };
 
-  const handleCategoryClick = (id: string, index: number) => {
+  const handleCategoryClick = (id: number, index: number) => {
     setActiveIndexCat(index);
     getProductsList(id);
   };
@@ -143,7 +150,7 @@ const Main = () => {
         <div className={styles.containerTicket}>
           <Typography variant='h3'>Ticket</Typography>
           <Ticket>
-            
+
           </Ticket>
         </div>
       </section>

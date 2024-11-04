@@ -7,7 +7,7 @@ interface SidebarItemProps {
     text: string;
     href: string;
     isCollapsed: boolean;
-    onClick: () => void; // Nueva propiedad
+    onClick?: () => void; // Nueva propiedad
     isActive: boolean; // Nueva propiedad para saber si está activo
 }
 

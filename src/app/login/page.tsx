@@ -21,11 +21,11 @@ const Login = () => {
 
   const router = useRouter()
 
-  const { setUserInfo } = useContext(AuthContext)
+  const { setUserInfo } = useContext(AuthContext) || {}
 
   const onSubmit = async (data: {userName: string, password: string}) => {
     const auth = await authLogin(data);
-    if (auth) {
+    if (auth && setUserInfo) {
       console.log('auth', auth);
       setUserInfo(auth);
       localStorage.setItem('userInfo', JSON.stringify(auth)); // Guardar en localStorage

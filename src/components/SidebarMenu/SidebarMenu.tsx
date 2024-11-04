@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import styles from './SidebarMenu.module.css';
-import { Button, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import SidebarItem from '../SidebarItem/SidebarItem';
 import HomeIcon from '@mui/icons-material/Home';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,14 +14,10 @@ interface SidebarMenuProps {
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
     const [isOpen, setIsOpen] = useState(true);
-    const [isActive, setIsActive] = useState(false); 
     const pathname = usePathname()
     const toggleSidebarMenu = () => {
         setIsOpen(!isOpen);
         onToggle(!isOpen);
-    };
-    const handleItemClick = () => {
-        setIsActive(true); // Cambia el estado a activo al hacer clic
     };
 
     return (
@@ -40,8 +36,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
                         text="Home"
                         href={'/main'}
                         icon={<HomeIcon style={{ fontSize: '2rem' }} />} // Aumentar tamaño del ícono
-                        isCollapsed={!isOpen}
-                        onClick={handleItemClick} // Manejar clic en el ítem
+                        isCollapsed={!isOpen} // Manejar clic en el ítem
                         isActive={pathname === '/main'}                    />
                     {/* Agrega más enlaces según sea necesario */}
                 </ul>

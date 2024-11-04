@@ -1,13 +1,11 @@
 // src/components/NavInfo/NavInfo.tsx
 import React from 'react'
 import styles from './NavInfo.module.css'
-import { Avatar, Typography, IconButton, Button } from '@mui/material';
-import { stringAvatar } from '@/utils/avatarText';
+import { Typography, IconButton, Button } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HistoryIcon from '@mui/icons-material/History';
 import TextInputForm from '../TextInputForm';
 import { useForm } from 'react-hook-form';
-import { BorderColor } from '@mui/icons-material';
 
 interface NavInfoProps {
   queueCount: number; // Nueva propiedad para el conteo de pedidos

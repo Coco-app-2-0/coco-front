@@ -5,7 +5,7 @@ export const getCategories = async (idTienda: number) => {
   return response
 }
 
-export const getProducts = async (idCategory: string, idTienda: number) => {
+export const getProducts = async (idCategory: number, idTienda: number) => {
   const response = await axiosInstance.get(`/controller_pos.php/obtenerProductos?idCategoria=${idCategory}&idTienda=${idTienda}`)
   return response
 }
