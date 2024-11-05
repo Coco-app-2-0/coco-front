@@ -2,13 +2,11 @@
 import Image from 'next/image'
 import React, { useContext } from 'react'
 import LogoCoco from '../../assets/images/logo-coco.svg'
-import styles from './login.module.css'
+import styles from './page.module.css'
 import { Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-
 import TextInputForm from '@/components/TextInputForm'
-import { authLogin } from '../../apis/login/login'
-
+import { authLogin } from '../apis/login/login'
 import { AuthContext } from '@/context/AuthContext' 
 import { useRouter } from 'next/navigation'
 
