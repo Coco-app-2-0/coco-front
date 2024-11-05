@@ -46,12 +46,12 @@ const Main = () => {
             setUserInfo(parsedUserInfo);
           }
         } else {
-          router.push('/login');
+          router.push('/');
         }
       } else {
-        router.push('/login');
+        router.push('/');
       }
-    } else if (pathname === '/login') {
+    } else if (pathname === '/') {
       router.push('/main');
     }
   }, [userInfo, pathname, router]);

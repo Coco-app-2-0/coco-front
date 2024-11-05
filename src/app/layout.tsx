@@ -31,7 +31,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <AuthProvider>
             <body>
-              {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} />}
+              {pathname !== '/' && <SidebarMenu onToggle={handleToggleSidebar} />}
               <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
                   {children}
               </main>
