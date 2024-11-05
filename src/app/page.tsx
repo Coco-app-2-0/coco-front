@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useContext } from 'react'
-import LogoCoco from '../../assets/images/logo-coco.svg'
+import LogoCoco from '../assets/images/logo-coco.svg'
 import styles from './page.module.css'
 import { Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
