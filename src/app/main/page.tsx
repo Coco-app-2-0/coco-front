@@ -8,9 +8,9 @@ import Loading from '@/components/Loading/Loading';
 import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
 import { Button, Typography } from '@mui/material';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Ticket from '@/components/Ticket/Ticket';
 import { CategoryTypes, ProductTypes } from '@/utils/types';
+import ProductItem from '@/components/ProductItem/ProductItem';
 
 const Main = () => {
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
@@ -89,6 +89,10 @@ const Main = () => {
     getProductsList(id);
   };
 
+  const addProduct = (product: any) => {
+    console.log(product)
+  }
+
 
   return (
     <>
@@ -117,7 +121,9 @@ const Main = () => {
             </div>
             <div className={styles.containCompleteFood}>
               <div className={styles.titleCompleteFood}>
-                <Typography variant='h6'>Comidas Completas</Typography>
+                <Typography variant='body1' sx={{ fontWeight: 700, color: '#000000', fontSize: '1rem', lineHeight: '19.36px' }} >
+                  Comidas completas
+                </Typography>
               </div>
               <div className={ loading ? styles.containLoading :  styles.containProducts}>
                 {loading ? (
@@ -125,19 +131,7 @@ const Main = () => {
                 ) : (
                   products.length > 0 &&
                   products.map((product, i) => (
-                    <div className={styles.cardProduct} key={i}>
-                      <div className={styles.titleProduct}>
-                        <Typography variant='body1'>{product.nombre}</Typography>
-                      </div>
-                      <div className={styles.detailsProduct}>
-                        <AddCircleOutlineIcon className={styles.iconHover} />
-                        <div className={styles.costProduct}>
-                          <span>
-                            ${product.precio}mxn
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <ProductItem product={product} key={i} clickItem={addProduct} />
                   ))
                 )}
               </div>

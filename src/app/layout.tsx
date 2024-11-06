@@ -8,7 +8,9 @@ import { usePathname } from 'next/navigation';
 import { AuthProvider } from '@/context/AuthContext';
 import { Metadata } from '@/components/Metadata/Metadata';
 import "./globals.css";
+import { Inter } from 'next/font/google'
 
+const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -30,7 +32,7 @@ export default function RootLayout({
         <Metadata title={'Coco App'} description={'Coco Ventas'} />
         <AppRouterCacheProvider>
           <AuthProvider>
-            <body>
+            <body className={inter.className}>
               {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} />}
               <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
                   {children}
