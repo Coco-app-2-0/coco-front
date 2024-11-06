@@ -8,6 +8,7 @@
   width: 24%;
   background: #FFFFFF;
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .detailsProduct {
@@ -54,4 +55,12 @@
 
 .iconHover:hover {
   filter: brightness(0.7); 
+}
+
+.cardProduct {
+  transition: transform 0.3s; /* Agrega una transición suave */
+}
+
+.cardProduct:hover {
+  transform: translateY(-5px); /* Eleva el componente al pasar el cursor */
 }

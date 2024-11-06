@@ -11,12 +11,12 @@ interface ProductItemProps {
 
 const ProductItem = ({ product, clickItem }: ProductItemProps) => {
   return (
-    <div className={styles.cardProduct}  >
+    <div className={styles.cardProduct} onClick={() => clickItem(product)} >
       <div className={styles.titleProduct}>
         <Typography variant='body1'>{product.nombre}</Typography>
       </div>
       <div className={styles.detailsProduct}>
-        <AddCircleOutlineIcon className={styles.iconHover} onClick={() => clickItem(product)} />
+        <AddCircleOutlineIcon className={styles.iconHover} />
         <div className={styles.costProduct}>
           <span>
             ${product.precio}mxn
