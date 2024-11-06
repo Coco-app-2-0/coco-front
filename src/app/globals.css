@@ -1,14 +1,20 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: rgba(233, 233, 233, 1);
+  --foreground: #ededed;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: rgba(233, 233, 233, 1);
     --foreground: #ededed;
   }
 }
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: rgba(233, 233, 233, 1);
+    --foreground: #ededed;
+  }
+} */
 
 html,
 body {
@@ -36,10 +42,7 @@ a {
   text-decoration: none;
 }
 
-input::placeholder {
-  text-overflow: ellipsis !important;
-  color: 'lime'
-}
+
 
 
 /* @media (prefers-color-scheme: dark) {

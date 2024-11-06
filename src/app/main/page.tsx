@@ -33,7 +33,18 @@ const Main = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // Asegúrate de que loading se establezca en false al final
+      setLoading(false);
+    }
+  }
+
+  const init = () => {
+    if (userInfo) {
+      getDataCategories(userInfo.idTienda).then(() => {
+        if (categories.length > 0) { // Verifica que categories tenga elementos
+          console.log(categories[0])
+          getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
+        }
+      });
     }
   }
 
@@ -59,16 +70,16 @@ const Main = () => {
 
   useEffect(() => {
     if (userInfo) {
-      getDataCategories(userInfo.idTienda)
-    }
-    if (userInfo) {
+      // getDataCategories(userInfo.idTienda)
       getDataCategories(userInfo.idTienda).then(() => {
-        if (categories.length > 0 && products.length === 0) { // Verifica que products esté vacío
+        if (categories.length > 0) { // Verifica que categories tenga elementos
+          console.log(categories[0])
           getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
         }
       });
     }
   }, [userInfo]);
+  
 
   const getProductsList = async (id: number) => {
     setLoading(true)
