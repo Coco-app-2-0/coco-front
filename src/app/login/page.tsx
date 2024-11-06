@@ -54,7 +54,7 @@ const Login = () => {
           <Image src={LogoCoco} alt={'Logo Coco App'} />
         </div>
         <div className={styles.loginForm}>
-          <Typography variant='h5' sx={{ fontWeight: 700, color: '#ff9900' }} >
+          <Typography variant='h5' sx={{ fontWeight: 700, color: '#ff9900', fontFamily: 'Inter' }} >
             Inicia Sesión
           </Typography>
           <div className={styles.loginInput}>
@@ -99,7 +99,11 @@ const Login = () => {
             />
           </div>
           <div className={styles.containerButton}>
-            <Button fullWidth onClick={handleSubmit(onSubmit)} variant="contained">Iniciar Sesion</Button>
+            <Button fullWidth onClick={handleSubmit(onSubmit)} variant="contained">
+              <Typography variant='h5' sx={{ fontWeight: 500, color: '#ffffff', fontFamily: 'Inter' }} >
+                Iniciar Sesión
+              </Typography>
+            </Button>
           </div>
         </div>
       </div>

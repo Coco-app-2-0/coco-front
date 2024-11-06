@@ -121,7 +121,9 @@ const Main = () => {
             </div>
             <div className={styles.containCompleteFood}>
               <div className={styles.titleCompleteFood}>
-                <Typography variant='h6'>Comidas Completas</Typography>
+                <Typography variant='body1' sx={{ fontWeight: 700, color: '#000000', fontSize: '1rem', lineHeight: '19.36px' }} >
+                  Comidas completas
+                </Typography>
               </div>
               <div className={ loading ? styles.containLoading :  styles.containProducts}>
                 {loading ? (

@@ -2,16 +2,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
   padding: 12px;
-  margin: 10px 1px;
+  margin: 10px 0;
   gap: 12px;
-  width: 25%;
+  width: 24%;
   background: #FFFFFF;
   border-radius: 12px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
 }
 
 .detailsProduct {
@@ -30,9 +26,6 @@
   height: 23px;
   background: rgba(63, 142, 0, 0.2);
   border-radius: 6px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
 }
 
 .costProduct span {
