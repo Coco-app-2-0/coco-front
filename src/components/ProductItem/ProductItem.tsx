@@ -2,10 +2,11 @@ import React from 'react'
 import styles from './productItem.module.css'
 import { Typography } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ProductTypes } from '@/utils/types';
 
 interface ProductItemProps {
-  product: any;
-  clickItem: (data: any) => void;
+  product: ProductTypes;
+  clickItem: (data: ProductTypes) => void;
 }
 
 const ProductItem = ({ product, clickItem }: ProductItemProps) => {

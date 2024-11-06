@@ -7,10 +7,20 @@ const Ticket = () => {
     <div className={styles.ticket}>
       <Typography variant='h6' sx={{
         fontFamily: 'Inter',
-        fontSize: '20px',
+        fontSize: '1.25rem',
         fontWeight: 700,
         lineHeight: '24.2px',
       }} >Ticket</Typography>
+
+
+      <div>
+        <Typography sx={{
+          fontFamily: 'Inter',
+          fontSize: '0.875rem',
+          fontWeight: 400,
+          lineHeight: '16.94px',
+        }} >Ticket</Typography>
+      </div>
     </div>
   )
 }
