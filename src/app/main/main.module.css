@@ -61,14 +61,6 @@
   align-items: center;
 }
 
-.iconHover {
-  transition: filter 0.3s ease; /* Transición suave */
-}
-
-.iconHover:hover {
-  filter: brightness(0.7); 
-}
-
 .containCompleteFood {
   padding: 0 20px;
 }

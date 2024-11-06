@@ -47,3 +47,11 @@
 .titleProduct {
   width: 100%;
 }
+
+.iconHover {
+  transition: filter 0.3s ease; /* Transición suave */
+}
+
+.iconHover:hover {
+  filter: brightness(0.7); 
+}

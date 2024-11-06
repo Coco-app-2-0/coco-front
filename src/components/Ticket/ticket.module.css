@@ -5,10 +5,80 @@
   padding: 24px;
   isolation: isolate;
   width: 407px;
+  min-height: 690px;
   background: #FFFFFF;
   border-radius: 12px;
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+}
+.ticketIcon {
+  margin: 0 10px;
+}
+
+.headerActions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.productItem {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: .2fr 1fr .5fr;
+  gap: 6px;
+  width: 359px;
+  height: 94px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+
+.productExtra {
+
+}
+
+.productHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.countProduct {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0px;
+width: 20px;
+height: 20px;
+background: rgba(23, 109, 238, 0.2);
+border-radius: 14px;
+flex: none;
+order: 0;
+flex-grow: 0;
+
+}
+
+.totalProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
 }
