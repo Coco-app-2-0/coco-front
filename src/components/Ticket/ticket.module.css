@@ -12,3 +12,25 @@
   align-self: stretch;
   flex-grow: 0;
 }
+.ticketIcon {
+  margin: 0 10px;
+}
+
+.headerActions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

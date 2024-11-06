@@ -142,10 +142,7 @@ const Main = () => {
           </div>
         </div>
         <div className={styles.containerTicket}>
-          <Typography variant='h3'>Ticket</Typography>
-          <Ticket>
-
-          </Ticket>
+          <Ticket />
         </div>
       </section>
     </>
