@@ -30,7 +30,7 @@ export interface ProductTypes {
 
 export interface ConfigProduct {
   extras: ConfigProductExtra[];
-  complementos: ConfigProductComplements[][]
+  complementos: ConfigProductComplements[]
 }
 
 export interface ConfigProductExtra {
