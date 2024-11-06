@@ -89,7 +89,7 @@ const Main = () => {
     getProductsList(id);
   };
 
-  const addProduct = (product: any) => {
+  const addProduct = (product: ProductTypes) => {
     console.log(product)
   }
 

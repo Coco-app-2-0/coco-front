@@ -30,7 +30,8 @@ const CategoryList = ({categories, clickItem, activeIndex}: CategoryListProps ) 
             className={ activeIndex === i ? style.iconCategoryActive : ''}
             />
           <Typography variant='body2' sx={{
-            color: activeIndex === i ? '#ffffff' : '#000000', fontWeight: activeIndex === i && 700, textAlign: 'center'
+            color: activeIndex === i ? '#ffffff' : '#000000',
+            fontWeight: activeIndex === i ? 700 : 400, textAlign: 'center'
           }}>{category.nombre}</Typography>
         </div>
       ))}

@@ -1,10 +1,10 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, {  } from 'react'
 // import Printer from "esc-pos-printer";
 import { Button } from '@mui/material'
 
 // import { usePrinter } from '@ombori/ga-thermal-printer-react';
-import { useHeartbeat } from '@ombori/ga-messaging';
+// import { useHeartbeat } from '@ombori/ga-messaging';
 
 
 const printer = () => {
@@ -40,58 +40,58 @@ const printer = () => {
   //   </Printer>
   // );
   // const { printerInfo, printerInstance } = usePrinter();
-  const getPrint = async () => {
-    // const data: Uint8Array = await render(receipt);
-    // console.log(data)
-    // try {
-    //   /* Create new printer  */
-    //   const printer = new Printer('XP-58');
-    //   console.log('poke 1',printer)
+  // const getPrint = async () => {
+  //   // const data: Uint8Array = await render(receipt);
+  //   // console.log(data)
+  //   // try {
+  //   //   /* Create new printer  */
+  //   //   const printer = new Printer('XP-58');
+  //   //   console.log('poke 1',printer)
   
-    //   /* get Printers list  */
-    //   const printerList = await printer.getPrinters();
-    //   console.log('poke2', printerList)
-    //   /* you can set the list in a state and use a select */
-    //   /* printerList[0] for this example */
-    //   printer.setPrinterName(printerList[0]);
+  //   //   /* get Printers list  */
+  //   //   const printerList = await printer.getPrinters();
+  //   //   console.log('poke2', printerList)
+  //   //   /* you can set the list in a state and use a select */
+  //   //   /* printerList[0] for this example */
+  //   //   printer.setPrinterName(printerList[0]);
   
-    //   printer.text("IT WORKS!!! :D\n");
-    //   printer.feed(2);
-    //   printer.cut();
-    //   printer.close();
-    //   // await printer.print();
-    // } catch (error) {
-    //   /*  Handle error  */
-    //   console.error(error)
-    // }
-    const testData = {
-      title: 'Funciona',
-      dateTime: '02.12.2021 12:00',
-      store: "Jovanni's Store",
-      instruction: 'Take this receipt to the nearest cash register to complete the purchase.',
-      thankYouMessage: 'Thank you for shopping with us!',
-      items: [
-        {
-          title: 'LAVATOIO 60CM ROVERE CHIARO MONDO 2.0',
-          sku: '527030',
-          price: '$00.00',
-          barcode: '978020137962'
-        },
-        {
-          title: 'DISPENSER SAPONE BIANCO LINEA POP',
-          sku: '006001',
-          price: '$00.00',
-          barcode: '978020137444'
-        },
-        {
-          title: 'P/SAPONE BIANCO LINEA POP',
-          sku: '006001',
-          price: '$00.00',
-          barcode: '978020137666'
-        }
-      ],
-    };
-  }
+  //   //   printer.text("IT WORKS!!! :D\n");
+  //   //   printer.feed(2);
+  //   //   printer.cut();
+  //   //   printer.close();
+  //   //   // await printer.print();
+  //   // } catch (error) {
+  //   //   /*  Handle error  */
+  //   //   console.error(error)
+  //   // }
+  //   const testData = {
+  //     title: 'Funciona',
+  //     dateTime: '02.12.2021 12:00',
+  //     store: "Jovanni's Store",
+  //     instruction: 'Take this receipt to the nearest cash register to complete the purchase.',
+  //     thankYouMessage: 'Thank you for shopping with us!',
+  //     items: [
+  //       {
+  //         title: 'LAVATOIO 60CM ROVERE CHIARO MONDO 2.0',
+  //         sku: '527030',
+  //         price: '$00.00',
+  //         barcode: '978020137962'
+  //       },
+  //       {
+  //         title: 'DISPENSER SAPONE BIANCO LINEA POP',
+  //         sku: '006001',
+  //         price: '$00.00',
+  //         barcode: '978020137444'
+  //       },
+  //       {
+  //         title: 'P/SAPONE BIANCO LINEA POP',
+  //         sku: '006001',
+  //         price: '$00.00',
+  //         barcode: '978020137666'
+  //       }
+  //     ],
+  //   };
+  // }
 
   // useEffect(() => {
   //   console.log('pokemon',printerInfo)
@@ -100,8 +100,8 @@ const printer = () => {
   
   return (
     <div>
-      <Button onClick={() => getPrint()}>
-        Imprimete esta
+      <Button onClick={() => console.log('imprime')}>
+        Imprimete
       </Button>
     </div>
   )
