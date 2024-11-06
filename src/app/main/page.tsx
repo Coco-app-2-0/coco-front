@@ -37,16 +37,16 @@ const Main = () => {
     }
   }
 
-  const init = () => {
-    if (userInfo) {
-      getDataCategories(userInfo.idTienda).then(() => {
-        if (categories.length > 0) { // Verifica que categories tenga elementos
-          console.log(categories[0])
-          getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
-        }
-      });
-    }
-  }
+  // const init = () => {
+  //   if (userInfo) {
+  //     getDataCategories(userInfo.idTienda).then(() => {
+  //       if (categories.length > 0) { // Verifica que categories tenga elementos
+  //         console.log(categories[0])
+  //         getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
+  //       }
+  //     });
+  //   }
+  // }
 
   useEffect(() => {
     if (!userInfo) {
