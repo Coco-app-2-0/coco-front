@@ -5,8 +5,21 @@ import Image from 'next/image'
 import TicketIcon from '../../assets/images/icon-ticket.svg'
 import TrashIcon from '../../assets/images/trash-icon.svg'
 import ConversationIcon from '../../assets/images/conversation-icon.svg'
+import CloseIcon from '@mui/icons-material/Close';
+import { ProductTypes } from '@/utils/types'
 
-const Ticket = () => {
+interface TicketProps {
+  products: ProductTypes[];
+  deleteProduct: (products: ProductTypes[]) => void;
+}
+
+const Ticket = ({products, deleteProduct}: TicketProps) => {
+
+  const handleDelete = (idProducto: number) => {
+    const filteredProducts = products.filter(item => item.idProducto !== idProducto)
+    deleteProduct(filteredProducts)
+  };
+
   return (
     <div className={styles.ticket}>
       <div className={styles.headerActions}>
@@ -27,6 +40,40 @@ const Ticket = () => {
             <Image src={TrashIcon} alt="icon" />
           </IconButton>
         </div>
+      </div>
+
+      <div className={styles.ticketProducts} >
+        {products.map((product, i) => (
+          <div key={i} className={styles.productItem}>
+                <div className={styles.countProduct}>
+                  <Typography sx={{color: '#176DEE'}}>
+                    1
+                  </Typography>
+                </div>
+                <div className={styles.productList}>
+                  <Typography>
+                    {product.nombre}
+                  </Typography>
+                  <ul className={styles.productExtra} >
+                    {
+                      product.configurable && (
+                        product.configuracion.complementos.map(item => 
+                          <li><Typography>{item.nombre}</Typography></li>
+                        )
+                      )
+                    }
+                  </ul>
+                </div>
+                <div className={styles.totalProduct}>
+                  <IconButton aria-label="Eliminar" onClick={() => handleDelete(product.idProducto)}>
+                    <CloseIcon />
+                  </IconButton>
+                  <Typography sx={{fontWeight:700}}>
+                    ${product.precio}
+                  </Typography>
+                </div>
+          </div>
+        ))}
       </div>
 
 

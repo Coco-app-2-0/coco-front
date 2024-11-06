@@ -21,6 +21,7 @@ const Main = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
+  const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -90,6 +91,9 @@ const Main = () => {
   };
 
   const addProduct = (product: ProductTypes) => {
+    setSelectedProducts([
+      ...selectedProducts,
+      product])
     console.log(product)
   }
 
@@ -142,7 +146,7 @@ const Main = () => {
           </div>
         </div>
         <div className={styles.containerTicket}>
-          <Ticket />
+          <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
         </div>
       </section>
     </>
