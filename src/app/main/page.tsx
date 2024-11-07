@@ -24,7 +24,7 @@ const Main = () => {
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
   const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
-  const [ subTotal, setSubtotal ] = useState<number>(1220.00)
+  const [ subTotal, setSubtotal ] = useState<number>(0)
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -97,7 +97,24 @@ const Main = () => {
     setSelectedProducts([
       ...selectedProducts,
       product])
-    console.log(product)
+      const subtotal = selectedProducts.reduce((acc, product) => {
+        let productTotal = product.precio; // Sumar el precio del producto
+
+        // Verificar si hay configuración y sumar precios de complementos y extras
+        if (product.configurable) {
+            product?.configuracion?.extras.forEach(extra => {
+                productTotal += Number(extra.precio); // Sumar precio de extras
+            });
+
+            product?.configuracion?.complementos.forEach(complemento => {
+                productTotal += Number(complemento.precio); // Sumar precio de complementos
+            });
+        }
+
+        return acc + productTotal; // Sumar al acumulador
+    }, 0);
+    setSubtotal(subtotal)
+    console.log(subtotal)
   }
 
   return (
