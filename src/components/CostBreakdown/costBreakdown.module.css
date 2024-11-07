@@ -1,0 +1,33 @@
+.costBreakdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 24px;
+  gap: 12px;
+  width: 407px;
+  height: 230px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.headerTotal {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.payMethod {
+  width: 100%;
+}
+
+
+.methods {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0;
+}

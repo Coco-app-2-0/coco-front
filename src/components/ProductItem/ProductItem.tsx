@@ -16,7 +16,7 @@ const ProductItem = ({ product, clickItem }: ProductItemProps) => {
         <Typography variant='body1'>{product.nombre}</Typography>
       </div>
       <div className={styles.detailsProduct}>
-        <AddCircleOutlineIcon className={styles.iconHover} />
+        <AddCircleOutlineIcon className={styles.iconAdd} />
         <div className={styles.costProduct}>
           <span>
             ${product.precio}mxn

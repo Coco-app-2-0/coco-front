@@ -68,4 +68,8 @@
 
 .containerTicket {
   padding: 0 10px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  row-gap: 10px;
 }
