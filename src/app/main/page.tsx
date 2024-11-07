@@ -11,6 +11,8 @@ import { Button, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
 import { CategoryTypes, ProductTypes } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
+import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
+
 
 const Main = () => {
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
@@ -22,6 +24,7 @@ const Main = () => {
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
   const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
+  const [ subTotal, setSubtotal ] = useState<number>(1220.00)
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -36,17 +39,6 @@ const Main = () => {
       setLoading(false);
     }
   }
-
-  // const init = () => {
-  //   if (userInfo) {
-  //     getDataCategories(userInfo.idTienda).then(() => {
-  //       if (categories.length > 0) { // Verifica que categories tenga elementos
-  //         console.log(categories[0])
-  //         getProductsList(categories[0].id); // Llama a getProductsList con el primer elemento de categories
-  //       }
-  //     });
-  //   }
-  // }
 
   useEffect(() => {
     if (!userInfo) {
@@ -108,7 +100,6 @@ const Main = () => {
     console.log(product)
   }
 
-
   return (
     <>
       <NavInfo queueCount={0} />
@@ -158,6 +149,7 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
+          <CostBreakdown subTotal={subTotal} />
         </div>
       </section>
     </>
