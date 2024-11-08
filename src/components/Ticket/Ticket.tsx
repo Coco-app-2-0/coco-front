@@ -57,9 +57,17 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
                   <ul className={styles.productExtra} >
                     {
                       product.configurable && (
-                        product.configuracion.complementos.map((item, j) => 
-                          <li key={j}><Typography >{item.nombre}</Typography></li>
-                        )
+                        <>
+                          {product?.configuracion?.complementos && product?.configuracion?.complementos.map((item, j) => 
+                            <li key={j}><Typography >{item.nombre}</Typography></li>
+                          )}
+                          {product?.configuracion?.extras && product?.configuracion?.extras.map((extra, k) => 
+                            <li key={k}><Typography >{extra.nombre}</Typography></li>
+                          )}
+                          {product?.configuracion?.ingredientes && product?.configuracion?.ingredientes.map((ingrediente, l) => 
+                            <li key={l}><Typography >{ingrediente.nombre}</Typography></li>
+                          )}
+                        </>
                       )
                     }
                   </ul>

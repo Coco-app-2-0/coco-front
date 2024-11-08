@@ -25,6 +25,8 @@ const Main = () => {
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
   const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
+  // const [ ticketTotal, setTicketTotal ] = useState<TicketProduct>()
+  const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -46,7 +48,7 @@ const Main = () => {
       if (storedUserInfo) {
         const parsedUserInfo = JSON.parse(storedUserInfo);
         if (parsedUserInfo) {
-          if (setUserInfo) { // Verifica que setUserInfo no sea undefined
+          if (setUserInfo) {
             setUserInfo(parsedUserInfo);
           }
         } else {
@@ -71,6 +73,27 @@ const Main = () => {
       });
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    const subtotal = selectedProducts.reduce((acc, product) => {
+      let productTotal = product.precio; // Sumar el precio del producto
+
+      // Verificar si hay configuración y sumar precios de complementos y extras
+      if (product.configurable) {
+          product?.configuracion?.extras.forEach(extra => {
+              productTotal += Number(extra.precio); // Sumar precio de extras
+          });
+
+          product?.configuracion?.complementos.forEach(complemento => {
+              productTotal += Number(complemento.precio); // Sumar precio de complementos
+          });
+      }
+
+      return acc + productTotal; // Sumar al acumulador
+    }, 0);
+    setSubtotal(subtotal);
+    console.log(subtotal);
+  }, [selectedProducts]); 
   
 
   const getProductsList = async (id: number) => {
@@ -97,24 +120,57 @@ const Main = () => {
     setSelectedProducts([
       ...selectedProducts,
       product])
-      const subtotal = selectedProducts.reduce((acc, product) => {
-        let productTotal = product.precio; // Sumar el precio del producto
 
-        // Verificar si hay configuración y sumar precios de complementos y extras
-        if (product.configurable) {
-            product?.configuracion?.extras.forEach(extra => {
-                productTotal += Number(extra.precio); // Sumar precio de extras
-            });
+    //   const subtotal = selectedProducts.reduce((acc, product) => {
+    //     let productTotal = product.precio; // Sumar el precio del producto
 
-            product?.configuracion?.complementos.forEach(complemento => {
-                productTotal += Number(complemento.precio); // Sumar precio de complementos
-            });
-        }
+    //     // Verificar si hay configuración y sumar precios de complementos y extras
+    //     if (product.configurable) {
+    //         product?.configuracion?.extras.forEach(extra => {
+    //             productTotal += Number(extra.precio); // Sumar precio de extras
+    //         });
 
-        return acc + productTotal; // Sumar al acumulador
-    }, 0);
-    setSubtotal(subtotal)
-    console.log(subtotal)
+    //         product?.configuracion?.complementos.forEach(complemento => {
+    //             productTotal += Number(complemento.precio); // Sumar precio de complementos
+    //         });
+    //     }
+
+    //     return acc + productTotal; // Sumar al acumulador
+    // }, 0);
+    // setSubtotal(subtotal)
+  }
+
+  const createOrder = () => {
+    const productos = selectedProducts.map(product => ({
+      idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
+      cantidad: 1, // Cantidad fija como 1
+      precio: product.precio, // Precio del producto
+      ingredientes: product.configuracion.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
+        idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
+      })) : [],
+      extras: product.configuracion?.extras ? product.configuracion.extras.map(extra => ({
+        idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
+        cantidad: 1, // Cantidad fija como 1
+        precio: extra.precio // Precio del extra
+      })) : [],
+      complementos: product.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
+        idComplemento: complemento.idComplemento, // Asumiendo que 'id' es la propiedad del complemento
+        precio: complemento.precio, // Precio del complemento
+        tipo: complemento.tipo // Asumiendo que 'tipo' es una propiedad del complemento
+      })) : []
+    }));
+    const totalTicket = {
+      idCliente: 1, // Para pedido mostrador debe ser 1 siempre
+      tipoCliente: "App", // Aquí es App o Libreta
+      idTienda: userInfo?.idTienda, // Obtener el idTienda del contexto
+      idHijo: 0, // El idHijo de la lista de clientes o cero si es cliente app
+      monto: subTotal, // Total de la orden
+      tipoCobro: typePurchaseState, // 1-Efectivo, 2-Tarjeta, 3-Clientes
+      comentarios: "Con comentarios", // Puede ir vacío si no existen comentarios
+      productos: productos // Colocar la constante productos previamente creada
+    };
+    // setTicketTotal(totalTicket)
+    console.log('poke total',totalTicket)
   }
 
   return (
@@ -130,10 +186,10 @@ const Main = () => {
               >
                 Crear orden
               </Button>
-              <Button onClick={() => setValueTab(1)} variant='outlined'
+              {/* <Button onClick={() => setValueTab(1)} variant='outlined'
               sx={valueTab === 1 ? btnTabActive : btnTab}  >
                 Ordenes Programadas
-              </Button>
+              </Button> */}
           </div>
           <div className={styles.containerMenu}>
             {
@@ -166,7 +222,7 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
-          <CostBreakdown subTotal={subTotal} />
+          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} />
         </div>
       </section>
     </>

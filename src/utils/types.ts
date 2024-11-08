@@ -20,17 +20,18 @@ export interface CategoryTypes {
 
 
 export interface ProductTypes {
-  configurable: boolean
-  configuracion: ConfigProduct
-  idProducto: number
-  nombre: string
-  precio: number
+  configurable: boolean;
+  configuracion: ConfigProduct;
+  idProducto: number;
+  nombre: string;
+  precio: number;
 }
 
 
 export interface ConfigProduct {
+  ingredientes: Ingrediente[];
   extras: ConfigProductExtra[];
-  complementos: ConfigProductComplements[]
+  complementos: ConfigProductComplements[];
 }
 
 export interface ConfigProductExtra {
@@ -47,3 +48,31 @@ export interface ConfigProductComplements {
   precio: string;
   tipo: string;
 }
+
+
+export interface TicketProduct {
+  idProducto: number;
+  cantidad: number;
+  precio: number;
+  ingredientes: Ingrediente[];
+  extras: Extra[];
+  complementos: Complemento[];
+}
+
+export interface Ingrediente {
+  idIngrediente: number;
+  nombre: string;
+}
+
+export interface Extra {
+  idExtra: number;
+  cantidad: number;
+  precio: number; // precio individual del extra
+}
+
+export interface Complemento {
+  idComplemento: number;
+  precio: number;
+  tipo: number;
+}
+

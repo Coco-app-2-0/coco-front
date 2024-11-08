@@ -6,12 +6,14 @@
   isolation: isolate;
   width: 407px;
   min-height: 625px;
+  max-height: 625px;
   background: #FFFFFF;
   border-radius: 12px;
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+  overflow-y: auto;
 }
 .ticketIcon {
   margin: 0 10px;
@@ -47,6 +49,7 @@
   border: 1px solid #E0E0E0;
   border-radius: 6px;
   padding: 5px 10px;
+  margin: 10PX 0;
 }
 
 .productExtra {

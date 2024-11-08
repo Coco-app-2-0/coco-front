@@ -9,10 +9,17 @@ import Image from 'next/image'
 
 interface CostBreakdownProps {
   subTotal: number
+  clickBtn: () => void
+  typePurchase: (id: number | null) => void
 }
 
-const CostBreakdown = ({subTotal}: CostBreakdownProps) => {
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+const CostBreakdown = ({subTotal, clickBtn, typePurchase}: CostBreakdownProps) => {
+  const [selectedMethod, setSelectedMethod] = useState<number | null>(null);
+
+  const changeType = (id: number) => {
+    setSelectedMethod(id)
+    typePurchase(id)
+  }
 
   return (
     <div className={styles.costBreakdown}>
@@ -25,8 +32,8 @@ const CostBreakdown = ({subTotal}: CostBreakdownProps) => {
         <div className={styles.methods}>
           <div className={styles.containButton}>
             <IconButton
-              onClick={() => setSelectedMethod('cash')} 
-              style={{ backgroundColor: selectedMethod === 'cash' ? '#FD9A3559' : 'transparent',
+              onClick={() => changeType(1)} 
+              style={{ backgroundColor: selectedMethod === 1 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado 
             >
@@ -36,8 +43,8 @@ const CostBreakdown = ({subTotal}: CostBreakdownProps) => {
           </div>
           <div className={styles.containButton}>
             <IconButton
-              onClick={() => setSelectedMethod('card')} 
-              style={{ backgroundColor: selectedMethod === 'card' ? '#FD9A3559' : 'transparent',
+              onClick={() => changeType(2)} 
+              style={{ backgroundColor: selectedMethod === 2 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado
             >
@@ -47,8 +54,8 @@ const CostBreakdown = ({subTotal}: CostBreakdownProps) => {
           </div>
           <div className={styles.containButton}>
             <IconButton 
-              onClick={() => setSelectedMethod('account')} 
-              style={{ backgroundColor: selectedMethod === 'account' ? '#FD9A3559' : 'transparent',
+              onClick={() => changeType(3)} 
+              style={{ backgroundColor: selectedMethod === 3 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado
             >
@@ -58,7 +65,7 @@ const CostBreakdown = ({subTotal}: CostBreakdownProps) => {
           </div>
         </div>
       </div>
-        <Button variant="contained" fullWidth >
+        <Button variant="contained" fullWidth onClick={clickBtn} >
           <Typography sx={{fontWeight: 700, fontSize: '0.875', textAlign: 'center', color:'#fff'}} >Cobrar Ticket</Typography>
         </Button>
     </div>
