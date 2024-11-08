@@ -1,22 +1,21 @@
-'use client'
-import { useState } from 'react';
 import styles from './SidebarMenu.module.css';
 import { Button } from '@mui/material';
 import SidebarItem from '../SidebarItem/SidebarItem';
-import HomeIcon from '@mui/icons-material/Home';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { usePathname } from 'next/navigation';
+import HomeIcon from '../../assets/images/home-icon.svg'
+import Image from 'next/image';
 
 interface SidebarMenuProps {
     onToggle: (isOpen: boolean) => void;
+    isOpen: boolean
 }
 
-const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
-    const [isOpen, setIsOpen] = useState(true);
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
     const pathname = usePathname()
     const toggleSidebarMenu = () => {
-        setIsOpen(!isOpen);
+        // setIsOpen(!isOpen);
         onToggle(!isOpen);
     };
 
@@ -35,7 +34,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
                     <SidebarItem 
                         text="Home"
                         href={'/main'}
-                        icon={<HomeIcon style={{ fontSize: '2rem' }} />} // Aumentar tamaño del ícono
+                        icon={
+                            <Image src={HomeIcon} alt={'home icon'} />
+                        } // Aumentar tamaño del ícono
                         isCollapsed={!isOpen} // Manejar clic en el ítem
                         isActive={pathname === '/main'}                    />
                     {/* Agrega más enlaces según sea necesario */}
