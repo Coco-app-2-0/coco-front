@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname()
 
   const handleToggleSidebar = (isOpen: boolean) => {
@@ -33,7 +33,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <AuthProvider>
             <body className={inter.className}>
-              {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} />}
+              {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} isOpen={isSidebarOpen} />}
               <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
                   {children}
               </main>

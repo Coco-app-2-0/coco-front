@@ -1,5 +1,3 @@
-'use client'
-import { useState } from 'react';
 import styles from './SidebarMenu.module.css';
 import { Button } from '@mui/material';
 import SidebarItem from '../SidebarItem/SidebarItem';
@@ -10,13 +8,13 @@ import { usePathname } from 'next/navigation';
 
 interface SidebarMenuProps {
     onToggle: (isOpen: boolean) => void;
+    isOpen: boolean
 }
 
-const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle }) => {
-    const [isOpen, setIsOpen] = useState(true);
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
     const pathname = usePathname()
     const toggleSidebarMenu = () => {
-        setIsOpen(!isOpen);
+        // setIsOpen(!isOpen);
         onToggle(!isOpen);
     };
 

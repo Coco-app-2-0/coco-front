@@ -75,24 +75,24 @@ const Main = () => {
   }, [userInfo]);
 
   useEffect(() => {
-    const subtotal = selectedProducts.reduce((acc, product) => {
+    const subtotalCount = selectedProducts.reduce((acc, product) => {
       let productTotal = product.precio; // Sumar el precio del producto
 
       // Verificar si hay configuración y sumar precios de complementos y extras
       if (product.configurable) {
-          product?.configuracion?.extras.forEach(extra => {
-              productTotal += Number(extra.precio); // Sumar precio de extras
-          });
+        for (const extra of product?.configuracion?.extras || []) {
+          productTotal += Number(extra.precio); // Sumar precio de extras
+        }
 
-          product?.configuracion?.complementos.forEach(complemento => {
-              productTotal += Number(complemento.precio); // Sumar precio de complementos
-          });
+        for (const complemento of product?.configuracion?.complementos || []) {
+          productTotal += Number(complemento.precio); // Sumar precio de complementos
+        }
       }
 
       return acc + productTotal; // Sumar al acumulador
     }, 0);
-    setSubtotal(subtotal);
-    console.log(subtotal);
+    console.log(Math.floor(subtotalCount));
+    setSubtotal(subtotalCount);
   }, [selectedProducts]); 
   
 
