@@ -91,8 +91,7 @@ const Main = () => {
 
       return acc + productTotal; // Sumar al acumulador
     }, 0);
-    console.log(Math.floor(subtotalCount));
-    setSubtotal(subtotalCount);
+    setSubtotal(Number(subtotalCount.toFixed(2))); // Limitar a 2 decimales
   }, [selectedProducts]); 
   
 
@@ -120,24 +119,6 @@ const Main = () => {
     setSelectedProducts([
       ...selectedProducts,
       product])
-
-    //   const subtotal = selectedProducts.reduce((acc, product) => {
-    //     let productTotal = product.precio; // Sumar el precio del producto
-
-    //     // Verificar si hay configuración y sumar precios de complementos y extras
-    //     if (product.configurable) {
-    //         product?.configuracion?.extras.forEach(extra => {
-    //             productTotal += Number(extra.precio); // Sumar precio de extras
-    //         });
-
-    //         product?.configuracion?.complementos.forEach(complemento => {
-    //             productTotal += Number(complemento.precio); // Sumar precio de complementos
-    //         });
-    //     }
-
-    //     return acc + productTotal; // Sumar al acumulador
-    // }, 0);
-    // setSubtotal(subtotal)
   }
 
   const createOrder = () => {
@@ -145,15 +126,15 @@ const Main = () => {
       idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
       cantidad: 1, // Cantidad fija como 1
       precio: product.precio, // Precio del producto
-      ingredientes: product.configuracion.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
+      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
         idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
       })) : [],
-      extras: product.configuracion?.extras ? product.configuracion.extras.map(extra => ({
+      extras: product?.configuracion?.extras ? product.configuracion.extras.map(extra => ({
         idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
         cantidad: 1, // Cantidad fija como 1
         precio: extra.precio // Precio del extra
       })) : [],
-      complementos: product.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
+      complementos: product?.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
         idComplemento: complemento.idComplemento, // Asumiendo que 'id' es la propiedad del complemento
         precio: complemento.precio, // Precio del complemento
         tipo: complemento.tipo // Asumiendo que 'tipo' es una propiedad del complemento
@@ -222,7 +203,7 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
-          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} />
+          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
         </div>
       </section>
     </>

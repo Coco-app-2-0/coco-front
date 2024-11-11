@@ -8,12 +8,13 @@ import AccountIconPay from '../../assets/images/account-iconpay.svg'
 import Image from 'next/image'
 
 interface CostBreakdownProps {
-  subTotal: number
-  clickBtn: () => void
-  typePurchase: (id: number | null) => void
+  subTotal: number;
+  disabledButton: boolean;
+  clickBtn: () => void;
+  typePurchase: (id: number | null) => void;
 }
 
-const CostBreakdown = ({subTotal, clickBtn, typePurchase}: CostBreakdownProps) => {
+const CostBreakdown = ({subTotal, clickBtn, typePurchase, disabledButton = true}: CostBreakdownProps) => {
   const [selectedMethod, setSelectedMethod] = useState<number | null>(null);
 
   const changeType = (id: number) => {
@@ -65,7 +66,7 @@ const CostBreakdown = ({subTotal, clickBtn, typePurchase}: CostBreakdownProps) =
           </div>
         </div>
       </div>
-        <Button variant="contained" fullWidth onClick={clickBtn} >
+        <Button variant="contained" fullWidth onClick={clickBtn} disabled={disabledButton} >
           <Typography sx={{fontWeight: 700, fontSize: '0.875', textAlign: 'center', color:'#fff'}} >Cobrar Ticket</Typography>
         </Button>
     </div>
