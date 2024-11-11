@@ -1,7 +1,7 @@
 .navinfo {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   height: 3rem;
   margin: 10px 0;
 }
@@ -54,4 +54,24 @@
 .historyIcon {
   color: #3F8E00;
   align-self: center;
+}
+
+.btnClients {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 12px;
+  margin: 0 auto !important;
+  width: 117.33px !important;
+  height: 48px !important;
+  background: #F9F9F9 !important;
+  border: 1px solid #E0E0E0 !important;
+  border-radius: 6px !important;
+}
+
+.clientIcon {
+
 }

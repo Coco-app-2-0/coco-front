@@ -14,7 +14,7 @@ interface SidebarMenuProps {
     onToggle: (isOpen: boolean) => void;
     isOpen: boolean
 }
-const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen = false }) => {
     const pathname = usePathname();
     const { logout } = useContext(AuthContext) || {};
     const toggleSidebarMenu = () => {
@@ -47,13 +47,13 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
                     {/* Agrega más enlaces según sea necesario */}
                 </ul>
                 <SidebarItem 
-                    text={'Cerrar Sesión'}
+                    text="Cerrar Sesión"
                     href={'/login'}
-                    isCollapsed={false} 
+                    isCollapsed={!isOpen} 
                     isActive={false}
                     onClick={() => handleLogOut()}
                     icon={
-                        <Image src={LogOutIcon} alt={'home icon'} />
+                        <Image src={LogOutIcon} alt={'cerrar sesión'} />
                     } 
                 />
             </nav>
