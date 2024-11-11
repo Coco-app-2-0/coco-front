@@ -9,7 +9,7 @@ import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
 import { Button, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
-import { CategoryTypes, ProductTypes } from '@/utils/types';
+import { CategoryTypes, ProductTicket, ProductTypes } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 
@@ -23,7 +23,7 @@ const Main = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
-  const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
+  const [ selectedProducts, setSelectedProducts ] = useState<ProductTicket[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
   // const [ ticketTotal, setTicketTotal ] = useState<TicketProduct>()
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
@@ -74,27 +74,7 @@ const Main = () => {
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    const subtotalCount = selectedProducts.reduce((acc, product) => {
-      let productTotal = product.precio; // Sumar el precio del producto
-
-      // Verificar si hay configuración y sumar precios de complementos y extras
-      if (product.configurable) {
-        for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio); // Sumar precio de extras
-        }
-
-        for (const complemento of product?.configuracion?.complementos || []) {
-          productTotal += Number(complemento.precio); // Sumar precio de complementos
-        }
-      }
-
-      return acc + productTotal; // Sumar al acumulador
-    }, 0);
-    setSubtotal(Number(subtotalCount.toFixed(2))); // Limitar a 2 decimales
-  }, [selectedProducts]); 
   
-
   const getProductsList = async (id: number) => {
     setLoading(true)
     try {
@@ -116,10 +96,43 @@ const Main = () => {
   };
 
   const addProduct = (product: ProductTypes) => {
-    setSelectedProducts([
-      ...selectedProducts,
-      product])
+    const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
+    if (existingProduct) {
+      // Si el producto ya existe, incrementa la cantidad
+      const addNewProduct = selectedProducts.map(item => 
+        item.idProducto === product.idProducto 
+          ? { ...item, quantity: item.quantity + 1 } 
+          : item
+      )
+      setSelectedProducts(addNewProduct);
+    } else {
+      // Si no existe, agrega el producto con cantidad 1
+      setSelectedProducts([
+        ...selectedProducts,
+        { ...product, quantity: 1 } // Agregar la propiedad quantity
+      ]);
+    }
   }
+
+  useEffect(() => {
+    const subtotalCount = selectedProducts.reduce((acc, product) => {
+      let productTotal = product.precio * product.quantity; // Multiplicar por la cantidad
+
+      // Verificar si hay configuración y sumar precios de complementos y extras
+      if (product.configurable) {
+        for (const extra of product?.configuracion?.extras || []) {
+          productTotal += Number(extra.precio) * product.quantity; // Sumar precio de extras
+        }
+
+        for (const complemento of product?.configuracion?.complementos || []) {
+          productTotal += Number(complemento.precio) * product.quantity; // Sumar precio de complementos
+        }
+      }
+
+      return acc + productTotal; // Sumar al acumulador
+    }, 0);
+    setSubtotal(Number(subtotalCount.toFixed(2))); // Limitar a 2 decimales
+  }, [selectedProducts]); 
 
   const createOrder = () => {
     const productos = selectedProducts.map(product => ({

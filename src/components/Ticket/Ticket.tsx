@@ -6,11 +6,11 @@ import TicketIcon from '../../assets/images/icon-ticket.svg'
 import TrashIcon from '../../assets/images/trash-icon.svg'
 import ConversationIcon from '../../assets/images/conversation-icon.svg'
 import CloseIcon from '@mui/icons-material/Close';
-import { ProductTypes } from '@/utils/types'
+import { ProductTicket } from '@/utils/types'
 
 interface TicketProps {
-  products: ProductTypes[];
-  deleteProduct: (products: ProductTypes[]) => void;
+  products: ProductTicket[];
+  deleteProduct: (products: ProductTicket[]) => void;
 }
 
 const Ticket = ({products, deleteProduct}: TicketProps) => {
@@ -47,7 +47,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           <div key={i} className={styles.productItem}>
                 <div className={styles.countProduct}>
                   <Typography sx={{color: '#176DEE'}}>
-                    1
+                    {product.quantity}
                   </Typography>
                 </div>
                 <div className={styles.productList}>
