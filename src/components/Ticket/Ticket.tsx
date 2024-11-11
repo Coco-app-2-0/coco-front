@@ -20,6 +20,10 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
     deleteProduct(filteredProducts)
   };
 
+  const handleTrashProducts = () => {
+    deleteProduct([])
+  }
+
   return (
     <div className={styles.ticket}>
       <div className={styles.headerActions}>
@@ -36,7 +40,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           <IconButton aria-label="Notificaciones">
             <Image src={ConversationIcon} alt="icon" />
           </IconButton>
-          <IconButton aria-label="Notificaciones">
+          <IconButton aria-label="Notificaciones" onClick={handleTrashProducts}>
             <Image src={TrashIcon} alt="icon" />
           </IconButton>
         </div>
