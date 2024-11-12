@@ -1,0 +1,15 @@
+.commentsCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+  isolation: isolate;
+  position: absolute;
+  width: 410px;
+  height: 322px;
+  left: 702px;
+  top: 67px;
+  background: #FFFFFF;
+  border-radius: 6px;
+}

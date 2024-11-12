@@ -193,11 +193,11 @@ const Main = () => {
               <CategoryList categories={categories} clickItem={(id, categoryIndex) => handleCategoryClick(id, categoryIndex)} activeIndex={activeIndexCat} />
             </div>
             <div className={styles.containCompleteFood}>
-              <div className={styles.titleCompleteFood}>
+              {/* <div className={styles.titleCompleteFood}>
                 <Typography variant='body1' sx={{ fontWeight: 700, color: '#000000', fontSize: '1rem', lineHeight: '19.36px' }} >
                   Comidas completas
                 </Typography>
-              </div>
+              </div> */}
               <div className={ loading ? styles.containLoading :  styles.containProducts}>
                 {loading ? (
                   <Loading />
