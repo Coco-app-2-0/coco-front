@@ -7,9 +7,16 @@
   isolation: isolate;
   position: absolute;
   width: 410px;
-  height: 322px;
+  height: 335px;
   left: 702px;
   top: 67px;
   background: #FFFFFF;
   border-radius: 6px;
+}
+
+.titleComments {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
