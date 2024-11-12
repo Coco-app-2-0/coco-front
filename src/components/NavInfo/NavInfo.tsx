@@ -18,9 +18,11 @@ const NavInfo = ({queueCount}: NavInfoProps) => {
   
   return (
     <section className={styles.navinfo}>
-        <div className={styles.infoTurn}>
-          <Typography variant='body1' >Turno: Invitado</Typography>
-        </div>
+        <Button className={styles.infoTurn} >
+          <Typography sx={{fontFamil:'Inter', fontWeight: 700, fontSize:'0.875rem', color: '#000000'}} >Corte diario</Typography>
+        </Button>
+        {/* <div className={styles.infoTurn}>
+        </div> */}
         <div className={styles.infoOrder}>
           <div className={styles.queueInfo}>
             <HistoryIcon className={styles.historyIcon} />
