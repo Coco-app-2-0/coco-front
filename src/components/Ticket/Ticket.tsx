@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './ticket.module.css'
-import { IconButton, Modal, Typography } from '@mui/material'
+import { Badge, IconButton, Modal, Typography } from '@mui/material'
 import Image from 'next/image'
 import TicketIcon from '../../assets/images/icon-ticket.svg'
 import TrashIcon from '../../assets/images/trash-icon.svg'
@@ -41,9 +41,18 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           <Image src={TicketIcon} alt={'ticket-icon'} className={styles.ticketIcon} />
         </div>
         <div className={styles.headerButtons}>
-          <IconButton aria-label="Notificaciones" onClick={() => setOpenModal(!openModal)}>
-            <Image src={ConversationIcon} alt="icon" />
-          </IconButton>
+          {
+            comment ?
+              <Badge color="secondary" overlap="circular" badgeContent=" " variant="dot">
+                <IconButton aria-label="Notificaciones" onClick={() => setOpenModal(!openModal)}>
+                  <Image src={ConversationIcon} alt="icon" />
+                </IconButton>
+              </Badge>
+              :
+              <IconButton aria-label="Notificaciones" onClick={() => setOpenModal(!openModal)}>
+                <Image src={ConversationIcon} alt="icon" />
+              </IconButton>
+          }
           <IconButton aria-label="Notificaciones" onClick={handleTrashProducts}>
             <Image src={TrashIcon} alt="icon" />
           </IconButton>
@@ -91,11 +100,9 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           </div>
         ))}
       </div>
-      
-      <Modal open={openModal}>
-        <CommentModal comment={comment || ''} setComment={setComment} />
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <CommentModal comment={comment || ''} setComment={setComment} onCloseModal={() => setOpenModal(false)} />
       </Modal>
-
     </div>
   )
 }

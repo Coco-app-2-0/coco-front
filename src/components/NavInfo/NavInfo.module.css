@@ -7,11 +7,8 @@
 }
 
 .infoTurn {
-  display: flex;
-  flex-direction: column;
-  padding: 6px 24px 6px 24px;
-  background-color: #F9F9F9;
-  border-radius: 6px;
+  background-color: #F9F9F9 !important;
+  border-radius: 6px !important;
 }
 
 .infoOrder {
@@ -70,8 +67,4 @@
   background: #F9F9F9 !important;
   border: 1px solid #E0E0E0 !important;
   border-radius: 6px !important;
-}
-
-.clientIcon {
-
 }
