@@ -5,18 +5,23 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { usePathname } from 'next/navigation';
 import HomeIcon from '../../assets/images/home-icon.svg'
+import LogOutIcon from '../../assets/images/logout-icon.svg'
 import Image from 'next/image';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/AuthContext';
 
 interface SidebarMenuProps {
     onToggle: (isOpen: boolean) => void;
     isOpen: boolean
 }
-
-const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
-    const pathname = usePathname()
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen = false }) => {
+    const pathname = usePathname();
+    const { logout } = useContext(AuthContext) || {};
     const toggleSidebarMenu = () => {
-        // setIsOpen(!isOpen);
         onToggle(!isOpen);
+    };
+    const handleLogOut = () => {
+        logout?.();
     };
 
     return (
@@ -29,7 +34,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
                 tabIndex={-1}
                 startIcon={isOpen ? <CloseIcon style={{ fontSize: '2rem' }} /> : <MenuOpenIcon style={{ fontSize: '2rem' }} />}
             />
-            <nav>
+            <nav className={styles.linksList}>
                 <ul>
                     <SidebarItem 
                         text="Home"
@@ -41,6 +46,16 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onToggle, isOpen }) => {
                         isActive={pathname === '/main'}                    />
                     {/* Agrega más enlaces según sea necesario */}
                 </ul>
+                <SidebarItem 
+                    text="Cerrar Sesión"
+                    href={'/login'}
+                    isCollapsed={!isOpen} 
+                    isActive={false}
+                    onClick={() => handleLogOut()}
+                    icon={
+                        <Image src={LogOutIcon} alt={'cerrar sesión'} />
+                    } 
+                />
             </nav>
         </div>
     );

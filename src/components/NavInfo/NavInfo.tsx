@@ -1,11 +1,12 @@
 // src/components/NavInfo/NavInfo.tsx
 import React from 'react'
 import styles from './NavInfo.module.css'
-import { Typography, IconButton, Button } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Typography, Button } from '@mui/material';
+import ClientIcon from '../../assets/images/client-icon.svg'
 import HistoryIcon from '@mui/icons-material/History';
 import TextInputForm from '../TextInputForm';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
 
 interface NavInfoProps {
   queueCount: number; // Nueva propiedad para el conteo de pedidos
@@ -79,9 +80,12 @@ const NavInfo = ({queueCount}: NavInfoProps) => {
 
         </div>
         <div>
-          <IconButton aria-label="Notificaciones">
-            <AccountCircleIcon />
-          </IconButton>
+          <Button className={styles.btnClients}>
+            <Image src={ClientIcon} alt={'clients'} className={styles.clienIcon} />
+            <Typography sx={{fontFamil:'Inter', fontWeight: 700, fontSize:'0.875rem', color: '#000000'}}>
+              Clientes
+            </Typography>
+          </Button>
         </div>
     </section>
   )

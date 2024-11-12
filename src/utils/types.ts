@@ -26,6 +26,14 @@ export interface ProductTypes {
   nombre: string;
   precio: number;
 }
+export interface ProductTicket {
+  configurable: boolean;
+  configuracion: ConfigProduct;
+  idProducto: number;
+  nombre: string;
+  precio: number;
+  quantity: number;
+}
 
 
 export interface ConfigProduct {

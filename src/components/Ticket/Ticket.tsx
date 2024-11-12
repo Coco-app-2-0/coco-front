@@ -1,24 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './ticket.module.css'
-import { IconButton, Typography } from '@mui/material'
+import { IconButton, Modal, Typography } from '@mui/material'
 import Image from 'next/image'
 import TicketIcon from '../../assets/images/icon-ticket.svg'
 import TrashIcon from '../../assets/images/trash-icon.svg'
 import ConversationIcon from '../../assets/images/conversation-icon.svg'
 import CloseIcon from '@mui/icons-material/Close';
-import { ProductTypes } from '@/utils/types'
+import { ProductTicket } from '@/utils/types'
+import CommentModal from '../CommentModal/CommentModal'
 
 interface TicketProps {
-  products: ProductTypes[];
-  deleteProduct: (products: ProductTypes[]) => void;
+  products: ProductTicket[];
+  deleteProduct: (products: ProductTicket[]) => void;
 }
 
 const Ticket = ({products, deleteProduct}: TicketProps) => {
+
+  const [ openModal, setOpenModal ] = useState<boolean>(false)
+  const [ comment, setComment ] = useState<string>()
 
   const handleDelete = (idProducto: number) => {
     const filteredProducts = products.filter(item => item.idProducto !== idProducto)
     deleteProduct(filteredProducts)
   };
+
+  const handleTrashProducts = () => {
+    deleteProduct([])
+  }
 
   return (
     <div className={styles.ticket}>
@@ -33,10 +41,10 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           <Image src={TicketIcon} alt={'ticket-icon'} className={styles.ticketIcon} />
         </div>
         <div className={styles.headerButtons}>
-          <IconButton aria-label="Notificaciones">
+          <IconButton aria-label="Notificaciones" onClick={() => setOpenModal(!openModal)}>
             <Image src={ConversationIcon} alt="icon" />
           </IconButton>
-          <IconButton aria-label="Notificaciones">
+          <IconButton aria-label="Notificaciones" onClick={handleTrashProducts}>
             <Image src={TrashIcon} alt="icon" />
           </IconButton>
         </div>
@@ -47,7 +55,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           <div key={i} className={styles.productItem}>
                 <div className={styles.countProduct}>
                   <Typography sx={{color: '#176DEE'}}>
-                    1
+                    {product.quantity}
                   </Typography>
                 </div>
                 <div className={styles.productList}>
@@ -83,7 +91,10 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
           </div>
         ))}
       </div>
-
+      
+      <Modal open={openModal}>
+        <CommentModal comment={comment || ''} setComment={setComment} />
+      </Modal>
 
     </div>
   )

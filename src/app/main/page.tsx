@@ -9,7 +9,7 @@ import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
 import { Button, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
-import { CategoryTypes, ProductTypes } from '@/utils/types';
+import { CategoryTypes, ProductTicket, ProductTypes } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 
@@ -23,7 +23,7 @@ const Main = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
-  const [ selectedProducts, setSelectedProducts ] = useState<ProductTypes[]>([])
+  const [ selectedProducts, setSelectedProducts ] = useState<ProductTicket[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
   // const [ ticketTotal, setTicketTotal ] = useState<TicketProduct>()
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
@@ -74,28 +74,7 @@ const Main = () => {
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    const subtotalCount = selectedProducts.reduce((acc, product) => {
-      let productTotal = product.precio; // Sumar el precio del producto
-
-      // Verificar si hay configuración y sumar precios de complementos y extras
-      if (product.configurable) {
-        for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio); // Sumar precio de extras
-        }
-
-        for (const complemento of product?.configuracion?.complementos || []) {
-          productTotal += Number(complemento.precio); // Sumar precio de complementos
-        }
-      }
-
-      return acc + productTotal; // Sumar al acumulador
-    }, 0);
-    console.log(Math.floor(subtotalCount));
-    setSubtotal(subtotalCount);
-  }, [selectedProducts]); 
   
-
   const getProductsList = async (id: number) => {
     setLoading(true)
     try {
@@ -117,43 +96,58 @@ const Main = () => {
   };
 
   const addProduct = (product: ProductTypes) => {
-    setSelectedProducts([
-      ...selectedProducts,
-      product])
-
-    //   const subtotal = selectedProducts.reduce((acc, product) => {
-    //     let productTotal = product.precio; // Sumar el precio del producto
-
-    //     // Verificar si hay configuración y sumar precios de complementos y extras
-    //     if (product.configurable) {
-    //         product?.configuracion?.extras.forEach(extra => {
-    //             productTotal += Number(extra.precio); // Sumar precio de extras
-    //         });
-
-    //         product?.configuracion?.complementos.forEach(complemento => {
-    //             productTotal += Number(complemento.precio); // Sumar precio de complementos
-    //         });
-    //     }
-
-    //     return acc + productTotal; // Sumar al acumulador
-    // }, 0);
-    // setSubtotal(subtotal)
+    const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
+    if (existingProduct) {
+      // Si el producto ya existe, incrementa la cantidad
+      const addNewProduct = selectedProducts.map(item => 
+        item.idProducto === product.idProducto 
+          ? { ...item, quantity: item.quantity + 1 } 
+          : item
+      )
+      setSelectedProducts(addNewProduct);
+    } else {
+      // Si no existe, agrega el producto con cantidad 1
+      setSelectedProducts([
+        ...selectedProducts,
+        { ...product, quantity: 1 } // Agregar la propiedad quantity
+      ]);
+    }
   }
+
+  useEffect(() => {
+    const subtotalCount = selectedProducts.reduce((acc, product) => {
+      let productTotal = product.precio * product.quantity; // Multiplicar por la cantidad
+
+      // Verificar si hay configuración y sumar precios de complementos y extras
+      if (product.configurable) {
+        for (const extra of product?.configuracion?.extras || []) {
+          productTotal += Number(extra.precio) * product.quantity; // Sumar precio de extras
+        }
+
+        for (const complemento of product?.configuracion?.complementos || []) {
+          productTotal += Number(complemento.precio) * product.quantity; // Sumar precio de complementos
+        }
+      }
+
+      return acc + productTotal; // Sumar al acumulador
+    }, 0);
+    setSubtotal(Number(subtotalCount.toFixed(2))); // Limitar a 2 decimales
+  }, [selectedProducts]); 
 
   const createOrder = () => {
     const productos = selectedProducts.map(product => ({
       idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
       cantidad: 1, // Cantidad fija como 1
       precio: product.precio, // Precio del producto
-      ingredientes: product.configuracion.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
+      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
         idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
       })) : [],
-      extras: product.configuracion?.extras ? product.configuracion.extras.map(extra => ({
+      extras: product?.configuracion?.extras ? product.configuracion.extras.map(extra => ({
         idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
         cantidad: 1, // Cantidad fija como 1
         precio: extra.precio // Precio del extra
       })) : [],
-      complementos: product.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
+      complementos: product?.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
         idComplemento: complemento.idComplemento, // Asumiendo que 'id' es la propiedad del complemento
         precio: complemento.precio, // Precio del complemento
         tipo: complemento.tipo // Asumiendo que 'tipo' es una propiedad del complemento
@@ -199,11 +193,11 @@ const Main = () => {
               <CategoryList categories={categories} clickItem={(id, categoryIndex) => handleCategoryClick(id, categoryIndex)} activeIndex={activeIndexCat} />
             </div>
             <div className={styles.containCompleteFood}>
-              <div className={styles.titleCompleteFood}>
+              {/* <div className={styles.titleCompleteFood}>
                 <Typography variant='body1' sx={{ fontWeight: 700, color: '#000000', fontSize: '1rem', lineHeight: '19.36px' }} >
                   Comidas completas
                 </Typography>
-              </div>
+              </div> */}
               <div className={ loading ? styles.containLoading :  styles.containProducts}>
                 {loading ? (
                   <Loading />
@@ -222,7 +216,7 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
-          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} />
+          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
         </div>
       </section>
     </>

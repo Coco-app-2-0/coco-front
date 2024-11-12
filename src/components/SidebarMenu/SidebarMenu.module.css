@@ -43,3 +43,10 @@
 .iconSideMenu {
   font-size: 35px;
 }
+
+.linksList {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
