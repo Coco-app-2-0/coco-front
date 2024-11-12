@@ -1,7 +1,7 @@
 // src/components/NavInfo/NavInfo.tsx
 import React from 'react'
 import styles from './NavInfo.module.css'
-import { Typography, IconButton, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import ClientIcon from '../../assets/images/client-icon.svg'
 import HistoryIcon from '@mui/icons-material/History';
 import TextInputForm from '../TextInputForm';

@@ -93,7 +93,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
       </div>
       
       <Modal open={openModal}>
-        <CommentModal comment={comment} setComment={setComment} />
+        <CommentModal comment={comment || ''} setComment={setComment} />
       </Modal>
 
     </div>

@@ -10,7 +10,7 @@ interface CommentModalProps {
 
 const CommentModal = ({ comment, setComment }: CommentModalProps) => {
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setComment(event.target.value)
   }
 
