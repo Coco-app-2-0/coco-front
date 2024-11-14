@@ -45,7 +45,7 @@
   grid-template-columns: .2fr 1fr .5fr;
   gap: 6px;
   width: 359px;
-  height: 94px;
+  min-height: 94px;
   border: 1px solid #E0E0E0;
   border-radius: 6px;
   padding: 5px 10px;

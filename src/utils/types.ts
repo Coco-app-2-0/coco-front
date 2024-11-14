@@ -46,16 +46,8 @@ export interface ConfigProduct {
 }
 
 export interface ConfigProductOption {
-  tipo_1: {
-    etiqueta: string;
-    multiple: boolean;
-    items: ConfigProductOptionType[]
-  };
-  tipo_2: {
-    etiqueta: string;
-    multiple: boolean;
-    items: ConfigProductOptionType[]
-  }
+  tipo_1: ConfigProductOptionType[]
+  tipo_2: ConfigProductOptionType[]
 }
 
 export interface ConfigProductOptionType {
