@@ -38,23 +38,35 @@ export interface ProductTicket {
 
 export interface ConfigProduct {
   ingredientes: Ingrediente[];
-  extras: ConfigProductExtra[];
-  complementos: ConfigProductComplements[];
+  extras: ConfigProductExtras[];
+  opciones: ConfigProductOption;
 }
 
-export interface ConfigProductExtra {
+export interface ConfigProductOption {
+  tipo_1: {
+    etiqueta: string;
+    multiple: boolean;
+    items: ConfigProductOptionType[]
+  };
+  tipo_2: {
+    etiqueta: string;
+    multiple: boolean;
+    items: ConfigProductOptionType[]
+  }
+}
+
+export interface ConfigProductOptionType {
+  idOpcion: number
+  nombre:string 
+  numero: number
+  precio: number
+}
+
+export interface ConfigProductExtras {
   idExtra: number;
   nombre: string;
-  precio: number;
-}
-
-export interface ConfigProductComplements {
-  etiqueta: string;
-  idComplemento: number;
-  nombre: string;
   numero: number;
-  precio: string;
-  tipo: string;
+  precio: number;
 }
 
 
@@ -64,12 +76,13 @@ export interface TicketProduct {
   precio: number;
   ingredientes: Ingrediente[];
   extras: Extra[];
-  complementos: Complemento[];
+  opciones: Opciones[];
 }
 
 export interface Ingrediente {
   idIngrediente: number;
   nombre: string;
+  precios: number
 }
 
 export interface Extra {
@@ -78,9 +91,10 @@ export interface Extra {
   precio: number; // precio individual del extra
 }
 
-export interface Complemento {
-  idComplemento: number;
-  precio: number;
-  tipo: number;
+export interface Opciones {
+  idOpcion: number
+  nombre:string 
+  numero: number
+  precio: number
 }
 

@@ -1,0 +1,38 @@
+.incrementalInput {
+  display: flex;
+  align-items: center;
+  border: 1px solid #00000026;
+  border-radius: 45px;
+  flex-shrink: 1;
+}
+
+.decrementButton,
+.incrementButton {
+  background-color: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #7F7F7F;
+}
+
+.inputField {
+  width: 20px;
+  height: 20px; /* Ancho del input */
+  text-align: center; /* Centrar el texto */
+  border: none; /* Borde del input */
+  border-radius: 14px; /* Bordes redondeados */
+  margin: 0; /* Espaciado horizontal */
+  font-size: 13px; /* Tamaño de la fuente */
+  color: #176DEE;
+  background: #176DEE33;
+}
+
+.inputField:focus {
+  border: none !important;
+}
+
+.inputField[type=number] {
+  -moz-appearance: textfield !important;
+}

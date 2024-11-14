@@ -7,11 +7,12 @@ import styles from './main.module.css'
 import Loading from '@/components/Loading/Loading';
 import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
-import { Button, Typography } from '@mui/material';
+import { Button, Modal, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
 import { CategoryTypes, ProductTicket, ProductTypes } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
+import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
 
 
 const Main = () => {
@@ -25,7 +26,8 @@ const Main = () => {
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
   const [ selectedProducts, setSelectedProducts ] = useState<ProductTicket[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
-  // const [ ticketTotal, setTicketTotal ] = useState<TicketProduct>()
+  const [ openModal, setOpenModal ] = useState<boolean>(false)
+  const [ currenProduct, setCurrentProduct ] = useState<ProductTypes | null>(null)
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
 
   const getDataCategories = async (idTienda: number) => {
@@ -95,37 +97,44 @@ const Main = () => {
     getProductsList(id);
   };
 
-  const addProduct = (product: ProductTypes) => {
-    const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
-    if (existingProduct) {
-      // Si el producto ya existe, incrementa la cantidad
-      const addNewProduct = selectedProducts.map(item => 
-        item.idProducto === product.idProducto 
-          ? { ...item, quantity: item.quantity + 1 } 
-          : item
-      )
-      setSelectedProducts(addNewProduct);
+  const addProduct = (product: ProductTypes, fromConfigProduct = false) => {
+    console.log('poke', product);
+    if (product.configurable) {
+      setCurrentProduct(product);
+      setOpenModal(true);
     } else {
-      // Si no existe, agrega el producto con cantidad 1
-      setSelectedProducts([
-        ...selectedProducts,
-        { ...product, quantity: 1 } // Agregar la propiedad quantity
-      ]);
+      const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
+      if (existingProduct && !fromConfigProduct) {
+        // Si el producto ya existe y no proviene de configProduct, incrementa la cantidad
+        const addNewProduct = selectedProducts.map(item => 
+          item.idProducto === product.idProducto 
+            ? { ...item, quantity: item.quantity + 1 } 
+            : item
+        );
+        setSelectedProducts(addNewProduct);
+      } else {
+        // Si no existe, agrega el producto con cantidad 1
+        setSelectedProducts([
+          ...selectedProducts,
+          { ...product, quantity: 1 } // Agregar la propiedad quantity
+        ]);
+      }
     }
   }
 
   useEffect(() => {
+    console.log('poke 1', selectedProducts)
     const subtotalCount = selectedProducts.reduce((acc, product) => {
       let productTotal = product.precio * product.quantity; // Multiplicar por la cantidad
 
       // Verificar si hay configuración y sumar precios de complementos y extras
-      if (product.configurable) {
+      if (product.config) {
         for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio) * product.quantity; // Sumar precio de extras
+          productTotal += Number(extra.precio) * extra.cantidad; // Sumar precio de extras
         }
 
-        for (const complemento of product?.configuracion?.complementos || []) {
-          productTotal += Number(complemento.precio) * product.quantity; // Sumar precio de complementos
+        for (const ingredientes of product?.configuracion?.ingredientes || []) {
+          productTotal += Number(ingredientes.precio) * ingredientes.cantidad; // Sumar precio de complementos
         }
       }
 
@@ -219,6 +228,9 @@ const Main = () => {
           <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
         </div>
       </section>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <ConfigModalProduct product={currenProduct} onClose={() => setOpenModal(false)} configProduct={(product) => product ? addProduct(product, true) : null} />
+      </Modal>
     </>
   );
 }
