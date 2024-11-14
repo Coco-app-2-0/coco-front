@@ -7,11 +7,12 @@ import styles from './main.module.css'
 import Loading from '@/components/Loading/Loading';
 import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
-import { Button, Typography } from '@mui/material';
+import { Button, Modal, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
-import { CategoryTypes, ProductTicket, ProductTypes } from '@/utils/types';
+import { CategoryTypes, ProductTypes, TicketProduct } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
+import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
 
 
 const Main = () => {
@@ -23,9 +24,10 @@ const Main = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
-  const [ selectedProducts, setSelectedProducts ] = useState<ProductTicket[]>([])
+  const [ selectedProducts, setSelectedProducts ] = useState<any[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
-  // const [ ticketTotal, setTicketTotal ] = useState<TicketProduct>()
+  const [ openModal, setOpenModal ] = useState<boolean>(false)
+  const [ currenProduct, setCurrentProduct ] = useState<any | null>(null)
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
 
   const getDataCategories = async (idTienda: number) => {
@@ -95,37 +97,40 @@ const Main = () => {
     getProductsList(id);
   };
 
-  const addProduct = (product: ProductTypes) => {
-    const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
-    if (existingProduct) {
-      // Si el producto ya existe, incrementa la cantidad
-      const addNewProduct = selectedProducts.map(item => 
-        item.idProducto === product.idProducto 
-          ? { ...item, quantity: item.quantity + 1 } 
-          : item
-      )
-      setSelectedProducts(addNewProduct);
+  const addProduct = (product: ProductTypes | TicketProduct, fromConfigProduct = false) => {
+    console.log('poke', product);
+    if (product.configurable) {
+      setCurrentProduct(product);
+      setOpenModal(true);
     } else {
-      // Si no existe, agrega el producto con cantidad 1
-      setSelectedProducts([
-        ...selectedProducts,
-        { ...product, quantity: 1 } // Agregar la propiedad quantity
-      ]);
+      const existingProduct = selectedProducts.find((item: any) => item.idProducto === product.idProducto);
+      if (existingProduct && !fromConfigProduct) {
+        // Si el producto ya existe y no proviene de configProduct, incrementa la cantidad
+        const addNewProduct = selectedProducts.map((item: any) => 
+          item.idProducto === product.idProducto 
+            ? { ...item, quantity: item.quantity + 1 } 
+            : item
+        );
+        setSelectedProducts(addNewProduct);
+      } else {
+        // Si no existe, agrega el producto con cantidad 1
+        setSelectedProducts([...selectedProducts, { ...product, quantity: 1 }]); // No es necesario el tipo aquí
+      }
     }
   }
 
   useEffect(() => {
+    console.log('poke 1', selectedProducts)
     const subtotalCount = selectedProducts.reduce((acc, product) => {
       let productTotal = product.precio * product.quantity; // Multiplicar por la cantidad
 
       // Verificar si hay configuración y sumar precios de complementos y extras
-      if (product.configurable) {
+      if (product.config) {
         for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio) * product.quantity; // Sumar precio de extras
+          productTotal += Number(extra.precio) * (extra.cantidad || 0); // Sumar precio de extras
         }
-
-        for (const complemento of product?.configuracion?.complementos || []) {
-          productTotal += Number(complemento.precio) * product.quantity; // Sumar precio de complementos
+        for (const ingrediente of product?.configuracion?.ingredientes || []) {
+          productTotal += Number(ingrediente.precios) * (ingrediente.cantidad || 0); // Sumar precio de complementos
         }
       }
 
@@ -139,18 +144,13 @@ const Main = () => {
       idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
       cantidad: 1, // Cantidad fija como 1
       precio: product.precio, // Precio del producto
-      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
+      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map((ingrediente: any) => ({
         idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
       })) : [],
-      extras: product?.configuracion?.extras ? product.configuracion.extras.map(extra => ({
+      extras: product?.configuracion?.extras ? product.configuracion.extras.map((extra: any) => ({
         idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
         cantidad: 1, // Cantidad fija como 1
         precio: extra.precio // Precio del extra
-      })) : [],
-      complementos: product?.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
-        idComplemento: complemento.idComplemento, // Asumiendo que 'id' es la propiedad del complemento
-        precio: complemento.precio, // Precio del complemento
-        tipo: complemento.tipo // Asumiendo que 'tipo' es una propiedad del complemento
       })) : []
     }));
     const totalTicket = {
@@ -219,6 +219,10 @@ const Main = () => {
           <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
         </div>
       </section>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        {/* eslint-disable-next-line */}
+          <ConfigModalProduct product={currenProduct} onClose={() => setOpenModal(false)} configProduct={(product) => product ? addProduct(product, true) : null} />
+      </Modal>
     </>
   );
 }
