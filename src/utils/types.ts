@@ -25,6 +25,8 @@ export interface ProductTypes {
   idProducto: number;
   nombre: string;
   precio: number;
+  config?: boolean;
+  quantity?: number;
 }
 export interface ProductTicket {
   configurable: boolean;
@@ -33,6 +35,7 @@ export interface ProductTicket {
   nombre: string;
   precio: number;
   quantity: number;
+  config?: boolean
 }
 
 
@@ -67,6 +70,7 @@ export interface ConfigProductExtras {
   nombre: string;
   numero: number;
   precio: number;
+  cantidad?: number;
 }
 
 
@@ -74,12 +78,15 @@ export interface TicketProduct {
   idProducto: number;
   cantidad: number;
   precio: number;
+  configurable?: boolean;
   ingredientes: Ingrediente[];
   extras: Extra[];
   opciones: Opciones[];
+  quantity?: number;
 }
 
 export interface Ingrediente {
+  cantidad?: number
   idIngrediente: number;
   nombre: string;
   precios: number

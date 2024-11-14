@@ -9,7 +9,7 @@ import CategoryList from '@/components/CategoryList/CategoryList';
 import { getCategories, getProducts } from '@/apis/store/categories';
 import { Button, Modal, Typography } from '@mui/material';
 import Ticket from '@/components/Ticket/Ticket';
-import { CategoryTypes, ProductTicket, ProductTypes } from '@/utils/types';
+import { CategoryTypes, ProductTypes, TicketProduct } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
@@ -24,10 +24,10 @@ const Main = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [products, setProducts] = useState<ProductTypes[]>([])
   const [activeIndexCat, setActiveIndexCat] = useState<number>(0);
-  const [ selectedProducts, setSelectedProducts ] = useState<ProductTicket[]>([])
+  const [ selectedProducts, setSelectedProducts ] = useState<any[]>([])
   const [ subTotal, setSubtotal ] = useState<number>(0)
   const [ openModal, setOpenModal ] = useState<boolean>(false)
-  const [ currenProduct, setCurrentProduct ] = useState<ProductTypes | null>(null)
+  const [ currenProduct, setCurrentProduct ] = useState<any | null>(null)
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
 
   const getDataCategories = async (idTienda: number) => {
@@ -97,16 +97,16 @@ const Main = () => {
     getProductsList(id);
   };
 
-  const addProduct = (product: ProductTypes, fromConfigProduct = false) => {
+  const addProduct = (product: ProductTypes | TicketProduct, fromConfigProduct = false) => {
     console.log('poke', product);
     if (product.configurable) {
       setCurrentProduct(product);
       setOpenModal(true);
     } else {
-      const existingProduct = selectedProducts.find(item => item.idProducto === product.idProducto);
+      const existingProduct = selectedProducts.find((item: any) => item.idProducto === product.idProducto);
       if (existingProduct && !fromConfigProduct) {
         // Si el producto ya existe y no proviene de configProduct, incrementa la cantidad
-        const addNewProduct = selectedProducts.map(item => 
+        const addNewProduct = selectedProducts.map((item: any) => 
           item.idProducto === product.idProducto 
             ? { ...item, quantity: item.quantity + 1 } 
             : item
@@ -114,10 +114,7 @@ const Main = () => {
         setSelectedProducts(addNewProduct);
       } else {
         // Si no existe, agrega el producto con cantidad 1
-        setSelectedProducts([
-          ...selectedProducts,
-          { ...product, quantity: 1 } // Agregar la propiedad quantity
-        ]);
+        setSelectedProducts([...selectedProducts, { ...product, quantity: 1 }]); // No es necesario el tipo aquí
       }
     }
   }
@@ -130,11 +127,10 @@ const Main = () => {
       // Verificar si hay configuración y sumar precios de complementos y extras
       if (product.config) {
         for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio) * extra.cantidad; // Sumar precio de extras
+          productTotal += Number(extra.precio) * (extra.cantidad || 0); // Sumar precio de extras
         }
-
-        for (const ingredientes of product?.configuracion?.ingredientes || []) {
-          productTotal += Number(ingredientes.precio) * ingredientes.cantidad; // Sumar precio de complementos
+        for (const ingrediente of product?.configuracion?.ingredientes || []) {
+          productTotal += Number(ingrediente.precios) * (ingrediente.cantidad || 0); // Sumar precio de complementos
         }
       }
 
@@ -148,18 +144,13 @@ const Main = () => {
       idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
       cantidad: 1, // Cantidad fija como 1
       precio: product.precio, // Precio del producto
-      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map(ingrediente => ({
+      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map((ingrediente: any) => ({
         idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
       })) : [],
-      extras: product?.configuracion?.extras ? product.configuracion.extras.map(extra => ({
+      extras: product?.configuracion?.extras ? product.configuracion.extras.map((extra: any) => ({
         idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
         cantidad: 1, // Cantidad fija como 1
         precio: extra.precio // Precio del extra
-      })) : [],
-      complementos: product?.configuracion?.complementos ? product.configuracion.complementos.map(complemento => ({
-        idComplemento: complemento.idComplemento, // Asumiendo que 'id' es la propiedad del complemento
-        precio: complemento.precio, // Precio del complemento
-        tipo: complemento.tipo // Asumiendo que 'tipo' es una propiedad del complemento
       })) : []
     }));
     const totalTicket = {
@@ -229,6 +220,7 @@ const Main = () => {
         </div>
       </section>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        {/* eslint-disable-next-line */}
           <ConfigModalProduct product={currenProduct} onClose={() => setOpenModal(false)} configProduct={(product) => product ? addProduct(product, true) : null} />
       </Modal>
     </>

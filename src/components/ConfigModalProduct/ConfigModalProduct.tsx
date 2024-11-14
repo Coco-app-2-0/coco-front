@@ -1,4 +1,4 @@
-import { ProductTypes } from '@/utils/types';
+import { ProductTypes, TicketProduct } from '@/utils/types';
 import React, { useState } from 'react';
 import styles from './configModalProduct.module.css'
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, Radio, RadioGroup, Typography } from '@mui/material';
@@ -10,20 +10,6 @@ interface ConfigModalProductProps {
   configProduct: (product: TicketProduct) => void
 }
 
-interface TicketProduct {
-  idProducto: number;
-  nombre: string;
-  configuracion: {
-    ingredientes: never[];
-    extras: never[];
-    opciones: {
-        id: string;
-        nombre: string;
-        precio: number;
-    }[];
-  }
-}
-
 interface newValue {
   precio: any;
   nombre: any;
@@ -32,12 +18,12 @@ interface newValue {
 }
 
 const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProductProps) => {
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [selectedExtras, setSelectedExtras] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState<any[]>([]);
+    const [selectedExtras, setSelectedExtras] = useState<any[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<{ id: string; nombre: string, precio: number }[]>([]); // Nuevo estado para opciones
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: any) => {
       const { name, checked, value } = event.target;
 
       // Manejo de ingredientes
@@ -82,7 +68,7 @@ const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProd
     }
 
     const handleAddToOrder = () => {
-      const ticketProduct = {
+      const ticketProduct: any = {
           idProducto: product?.idProducto ?? 0,
           nombre: product?.nombre ?? '',
           precio: product?.precio,

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Checkbox,
   FormControl,
-  FormControlLabel,
-  FormLabel,
+  FormControlLabel
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 import { ConfigProductExtras, ConfigProductOption, Ingrediente } from "@/utils/types";
@@ -11,10 +10,10 @@ import { ConfigProductExtras, ConfigProductOption, Ingrediente } from "@/utils/t
 interface FormInputProps {
   options: Ingrediente[] | ConfigProductExtras[] | ConfigProductOption[]
   name: string;
-  control: unknown; 
+  control: any; 
   label?: string
-  onChange?: (e: unknown) => void;
-  setValue: (name: string, selectedItems: any) => void;
+  onChange?: (e: any) => void;
+  setValue: (name: string, selectedItems: object) => void;
 }
 
 export const FormInputMultiCheckbox: React.FC<FormInputProps> = ({
@@ -22,9 +21,8 @@ export const FormInputMultiCheckbox: React.FC<FormInputProps> = ({
   name,
   control,
   setValue,
-  label,
 }) => {
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [selectedItems, setSelectedItems] = useState<any[]>([]);
   // we are handling the selection manually here
   const handleSelect = (value: any) => {
     const isPresent = selectedItems.indexOf(value);
@@ -48,7 +46,7 @@ export const FormInputMultiCheckbox: React.FC<FormInputProps> = ({
               control={
                 <Controller
                   name={name}
-                  render={({ field }) => {
+                  render={() => {
                     return (
                       <Checkbox
                         checked={selectedItems.includes(option.value)}

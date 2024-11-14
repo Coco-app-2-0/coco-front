@@ -5,9 +5,9 @@ import { Control, Controller, FieldValues } from 'react-hook-form';
 
 interface FormInputProps {
   name: string;
-  control: unknown; 
+  control: any; 
   label?: string
-  onChange?: (e: unknown) => void;
+  onChange?: (e: any) => void;
   variantType?: string;
   customStyle?: string;
   inputType?: string;
