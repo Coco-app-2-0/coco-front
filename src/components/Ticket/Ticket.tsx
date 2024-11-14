@@ -19,9 +19,11 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
   const [ openModal, setOpenModal ] = useState<boolean>(false)
   const [ comment, setComment ] = useState<string>()
 
-  const handleDelete = (idProducto: number) => {
-    const filteredProducts = products.filter(item => item.idProducto !== idProducto)
-    deleteProduct(filteredProducts)
+  const handleDelete = (product: any) => {
+    // Crear una nueva lista usando filter para evitar mutaciones
+    const updatedProducts = products.filter((p) => p !== product);
+    // Actualizar el estado con la nueva lista
+    deleteProduct(updatedProducts);
   };
 
   const handleTrashProducts = () => {
@@ -73,11 +75,8 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
                   </Typography>
                   <ul className={styles.productExtra} >
                     {
-                      product.configurable && (
+                      product.config && (
                         <>
-                          {/* {product?.configuracion?.opciones && product?.configuracion?.opciones.map((item, j) => 
-                            <li key={j}><Typography >{item.nombre}</Typography></li>
-                          )} */}
                           {product?.configuracion?.extras && product?.configuracion?.extras.map((extra, k) => 
                             <li key={k}><Typography >{extra.nombre}</Typography></li>
                           )}
@@ -90,7 +89,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
                   </ul>
                 </div>
                 <div className={styles.totalProduct}>
-                  <IconButton aria-label="Eliminar" onClick={() => handleDelete(product.idProducto)}>
+                  <IconButton aria-label="Eliminar" onClick={() => handleDelete(product)}>
                     <CloseIcon />
                   </IconButton>
                   <Typography sx={{fontWeight:700}}>

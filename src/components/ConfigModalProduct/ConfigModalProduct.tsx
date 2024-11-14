@@ -23,38 +23,80 @@ const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProd
     const [selectedOptions, setSelectedOptions] = useState<{ id: string; nombre: string, precio: number }[]>([]); // Nuevo estado para opciones
 
 
-    const handleChange = (event: any) => {
+    const handleChange = (event: any, type: string, tipoKey?: string) => {
       const { name, checked, value } = event.target;
-
+      // const getDataValue = 
       // Manejo de ingredientes
-      if (name === 'ingredient') {
-        if (checked) {
-          setSelectedIngredients([...selectedIngredients, value]);
+      if(type === 'ingredients') {
+        const ingredienteSeleccionado = product?.configuracion?.ingredientes.find(
+          (ing) => ing.idIngrediente.toString() === value
+        );
+  
+        if (checked && ingredienteSeleccionado) {
+          setSelectedIngredients([...selectedIngredients, ingredienteSeleccionado]);
         } else {
-          setSelectedIngredients(selectedIngredients.filter(ingredient => ingredient !== value));
+          setSelectedIngredients(selectedIngredients.filter(
+            ingredient => ingredient.idIngrediente.toString() !== value
+          ));
         }
       }
 
       // Manejo de opciones
-      if (name === 'option') {
-        const optionId = value; // Suponiendo que el value es el id de la opción
-        const optionName = event.target.labels[0].innerText; // Obtener el nombre de la opción
-        const optionPrice = parseFloat(event.target.dataset.precio); // Obtener el precio desde un atributo data
+      if (type === 'options' || type === 'options-check') {
+        const optionId = value;
+        const optionName = event.target.labels[0].innerText.replace(/\$\d+(\.\d+)?$/, '').trim();    
+        const opcion = Object.values(product?.configuracion?.opciones || {})
+          .flatMap(grupo => grupo.items)
+          .find((item: any) => item.idOpcion.toString() === optionId);
 
-        if (checked) {
-          setSelectedOptions([...selectedOptions, { id: optionId, nombre: optionName, precio: optionPrice }]);
+        const optionPrice = opcion?.precio || 0;
+        const tipo = tipoKey || '';
+      
+        if (type === 'options') {
+          // Para radio buttons
+          setSelectedOptions(prevOptions => {
+            // Filtrar las opciones que no son del mismo grupo
+            const filteredOptions = prevOptions.filter(opt => !opt.tipo?.includes(tipo));
+            return [...filteredOptions, {
+              id: optionId,
+              nombre: optionName,
+              precio: optionPrice,
+              tipo: tipo
+            }];
+          });
         } else {
-          setSelectedOptions(selectedOptions.filter(option => option.id !== optionId));
+          // Para checkboxes
+          if (checked) {
+            const existingOptionIndex = selectedOptions.findIndex(
+              opt => opt.tipo?.includes(tipo)
+            );
+      
+            setSelectedOptions(prev => {
+              if (existingOptionIndex >= 0) {
+                const newOptions = [...prev];
+                newOptions[existingOptionIndex] = {
+                  id: optionId,
+                  nombre: optionName,
+                  precio: optionPrice,
+                  tipo: tipo
+                };
+                return newOptions;
+              }
+              return [...prev, {
+                id: optionId,
+                nombre: optionName,
+                precio: optionPrice,
+                tipo: tipo
+              }];
+            });
+          } else {
+            setSelectedOptions(prev => prev.filter(option => option.id !== optionId));
+          }
         }
       }
     }
 
     const handleIncremental = (objIncrement: newValue) => {
-      // const newObj = {
-      //   idExtra: objIncrement.idExtra,  // Cambiado para usar idExtra como clave
-      //   nombre: objIncrement.nombre, // Asegúrate de que objIncrement tenga esta propiedad
-      //   precio: objIncrement.precio, // Asegúrate de que objIncrement tenga esta propiedad
-      //   cantidad: objIncrement.cantidad // Mantener el valor
       const newExtras = [
         {
           idExtra: objIncrement.idExtra,  // Cambiado para usar idExtra como clave
@@ -76,12 +118,14 @@ const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProd
           configuracion: {
             ingredientes: selectedIngredients,
             extras: selectedExtras,
-            opciones: selectedOptions, // Agregado el estado de opciones con precio
+            opciones: {
+              tipo_1: selectedOptions[0],
+              tipo_2: selectedOptions[1]
+            }, // Agregado el estado de opciones con precio
           }
       };
       configProduct(ticketProduct)
       onClose()
-      console.log(ticketProduct); // Aquí puedes manejar el objeto como desees
   };
 
     return (
@@ -96,10 +140,10 @@ const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProd
                 product?.configuracion?.hasOwnProperty('ingredientes') &&
                   <div className={styles.ingredients}>
                     <Typography sx={{fontFamily: 'Inter', fontWeight: 600, fontSize:'1rem'}}>Ingredientes</Typography>
-                    <FormGroup onChange={handleChange}>
+                    <FormGroup onChange={(ev) => handleChange(ev, 'ingredients')}>
                       {
                         product?.configuracion?.ingredientes.map((item) => (
-                          <FormControlLabel key={item.idIngrediente} value={item.idIngrediente} name={item.nombre} control={<Checkbox name={item.nombre}  />} label={item.nombre} />
+                          <FormControlLabel className={styles.inputCheck} key={item.idIngrediente} value={item.idIngrediente} name={item.nombre} control={<Checkbox name={item.nombre}  />} label={item.nombre} />
                         ))
                       }
                     </FormGroup>
@@ -131,32 +175,44 @@ const ConfigModalProduct = ({ product, onClose, configProduct }: ConfigModalProd
 
               {
                 product?.configuracion?.hasOwnProperty('opciones') &&
-                <div className={styles.opciones} >
+                <div className={styles.options} >
                   <Typography sx={{fontFamily: 'Inter', fontWeight: 600, fontSize:'1rem'}}>Opciones</Typography>
                   <FormControl>
-                    {
-                      product?.configuracion?.opciones?.tipo_1.multiple ? 
-                      (
-                        <FormGroup onChange={handleChange}>
-                          {
-                            product?.configuracion?.opciones?.tipo_1.items.map((item) => (
-                              <FormControlLabel key={item.idOpcion} value={item.idOpcion} control={<Checkbox  />} data-precio={item.precio} label={`${item.nombre} ${item.precio !== 0 && ('$'+item.precio)}`} />
-                            ))
-                          }
-                        </FormGroup>
-                      )
-                      :
-                      (
-                          <RadioGroup row onChange={handleChange} >
-                            {product?.configuracion?.opciones?.tipo_1.items.map((item) => (
-                              <>
-                                <FormControlLabel key={item.idOpcion} value={item.idOpcion} control={<Radio />} data-precio={item.precio} label={`${item.nombre} ${item.precio !== 0 && ('$'+item.precio)}`} />
-                              </>
-                            ))}
-                          </RadioGroup>
-                      )
-                    }
-
+                  {
+                    Object.keys(product?.configuracion?.opciones || {}).map((tipoKey) => {
+                      const tipoOpciones = product?.configuracion?.opciones[tipoKey];
+                      return (
+                        <div key={tipoKey}>
+                          <Typography variant="subtitle2">{tipoOpciones.nombre}</Typography>
+                          {tipoOpciones.multiple ? (
+                            <FormGroup onChange={(ev) => handleChange(ev, 'options-check', tipoKey)}>
+                              {tipoOpciones.items.map((item: any) => (
+                                <FormControlLabel
+                                  className={styles.inputCheck}
+                                  key={item.idOpcion} 
+                                  value={item.idOpcion} 
+                                  control={<Checkbox />} 
+                                  label={`${item.nombre} ${item.precio ? '$'+item.precio : ''}`} 
+                                />
+                              ))}
+                            </FormGroup>
+                          ) : (
+                            <RadioGroup row onChange={(ev) => handleChange(ev, 'options', tipoKey)}>
+                              {tipoOpciones.items.map((item: any) => (
+                                <FormControlLabel 
+                                className={styles.inputRadio}
+                                  key={item.idOpcion} 
+                                  value={item.idOpcion} 
+                                  control={<Radio />} 
+                                  label={`${item.nombre} ${item.precio ? '$'+item.precio : ''}`} 
+                                />
+                              ))}
+                            </RadioGroup>
+                          )}
+                        </div>
+                      );
+                    })
+                  }
                   </FormControl>
                 </div>
               }

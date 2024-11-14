@@ -13,6 +13,7 @@ import { CategoryTypes, ProductTypes, TicketProduct } from '@/utils/types';
 import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
+import { createOrderPost } from '@/apis/orders/orders';
 
 
 const Main = () => {
@@ -98,7 +99,6 @@ const Main = () => {
   };
 
   const addProduct = (product: ProductTypes | TicketProduct, fromConfigProduct = false) => {
-    console.log('poke', product);
     if (product.configurable) {
       setCurrentProduct(product);
       setOpenModal(true);
@@ -120,51 +120,67 @@ const Main = () => {
   }
 
   useEffect(() => {
-    console.log('poke 1', selectedProducts)
+    console.log('poke', selectedProducts)
     const subtotalCount = selectedProducts.reduce((acc, product) => {
-      let productTotal = product.precio * product.quantity; // Multiplicar por la cantidad
+      let productTotal = product.precio * product.quantity;
 
       // Verificar si hay configuración y sumar precios de complementos y extras
       if (product.config) {
+        // Sumar extras
         for (const extra of product?.configuracion?.extras || []) {
-          productTotal += Number(extra.precio) * (extra.cantidad || 0); // Sumar precio de extras
+          productTotal += Number(extra.precio) * (extra.cantidad || 0);
         }
-        for (const ingrediente of product?.configuracion?.ingredientes || []) {
-          productTotal += Number(ingrediente.precios) * (ingrediente.cantidad || 0); // Sumar precio de complementos
+        
+        // Sumar opciones tipo 1 (ingredientes base)
+        for (const opcion of product?.configuracion?.tipo_1 || []) {
+          productTotal += Number(opcion.precio) * (opcion.cantidad || 0);
+        }
+        
+        // Sumar opciones tipo 2 (ingredientes adicionales)
+        for (const opcion of product?.configuracion?.tipo_2 || []) {
+          productTotal += Number(opcion.precio) * (opcion.cantidad || 0);
         }
       }
 
-      return acc + productTotal; // Sumar al acumulador
+      return acc + productTotal;
     }, 0);
-    setSubtotal(Number(subtotalCount.toFixed(2))); // Limitar a 2 decimales
+    setSubtotal(Number(subtotalCount.toFixed(2)));
   }, [selectedProducts]); 
 
   const createOrder = () => {
+    // Mapeo de productos con la cantidad correcta desde el estado
     const productos = selectedProducts.map(product => ({
-      idProducto: product.idProducto, // Asumiendo que 'id' es la propiedad del producto
-      cantidad: 1, // Cantidad fija como 1
-      precio: product.precio, // Precio del producto
-      ingredientes: product?.configuracion?.ingredientes ? product.configuracion.ingredientes.map((ingrediente: any) => ({
-        idIngrediente: ingrediente.idIngrediente // Asumiendo que 'id' es la propiedad del ingrediente
-      })) : [],
-      extras: product?.configuracion?.extras ? product.configuracion.extras.map((extra: any) => ({
-        idExtra: extra.idExtra, // Asumiendo que 'id' es la propiedad del extra
-        cantidad: 1, // Cantidad fija como 1
-        precio: extra.precio // Precio del extra
-      })) : []
+      idProducto: product.idProducto,
+      cantidad: product.quantity, // Usando la cantidad del estado en lugar de valor fijo
+      precio: product.precio,
+      configuracion: {
+        ingredientes: product?.configuracion?.ingredientes 
+          ? product.configuracion.ingredientes.map((ingrediente: any) => ({
+              idIngrediente: ingrediente.idIngrediente
+            })) 
+          : [],
+        extras: product?.configuracion?.extras 
+          ? product.configuracion.extras.map((extra: any) => ({
+              idExtra: extra.idExtra,
+              cantidad: extra.cantidad || 1, // Usando la cantidad del extra si existe
+              precio: extra.precio
+            })) 
+          : []
+      },
     }));
     const totalTicket = {
-      idCliente: 1, // Para pedido mostrador debe ser 1 siempre
-      tipoCliente: "App", // Aquí es App o Libreta
-      idTienda: userInfo?.idTienda, // Obtener el idTienda del contexto
-      idHijo: 0, // El idHijo de la lista de clientes o cero si es cliente app
-      monto: subTotal, // Total de la orden
-      tipoCobro: typePurchaseState, // 1-Efectivo, 2-Tarjeta, 3-Clientes
-      comentarios: "Con comentarios", // Puede ir vacío si no existen comentarios
-      productos: productos // Colocar la constante productos previamente creada
+      idCliente: 1,
+      tipoCliente: "app", // Cambiado a minúsculas
+      idTienda: userInfo?.idTienda || 0,
+      idHijo: 0,
+      monto: Number(subTotal.toFixed(2)), // Asegurando que sea número con 2 decimales
+      tipoCobro: typePurchaseState || 1, // Valor por defecto 1 si no hay estado
+      comentarios: "", // Vacío por defecto
+      productos: productos
     };
-    // setTicketTotal(totalTicket)
-    console.log('poke total',totalTicket)
+    // Aquí puedes agregar la llamada a la API para enviar totalTicket
+    console.log('Ticket a enviar:', totalTicket);
+    createOrderPost(totalTicket)
   }
 
   return (
