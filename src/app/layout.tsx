@@ -9,6 +9,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { Metadata } from '@/components/Metadata/Metadata';
 import "./globals.css";
 import { Inter } from 'next/font/google'
+import { ToastProvider } from '@/context/ToastContext';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,20 +28,22 @@ export default function RootLayout({
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <html lang="en">
-        <Metadata title={'Coco App'} description={'Coco Ventas'} />
-        <AppRouterCacheProvider>
-          <AuthProvider>
-            <body className={inter.className}>
-              {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} isOpen={isSidebarOpen} />}
-              <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
-                  {children}
-              </main>
-            </body>
-          </AuthProvider>
-        </AppRouterCacheProvider>
-      </html>
-    </ThemeProvider>
+    <ToastProvider>
+      <ThemeProvider theme={theme}>
+        <html lang="en">
+          <Metadata title={'Coco App'} description={'Coco Ventas'} />
+          <AppRouterCacheProvider>
+            <AuthProvider>
+              <body className={inter.className}>
+                {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} isOpen={isSidebarOpen} />}
+                <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
+                    {children}
+                </main>
+              </body>
+            </AuthProvider>
+          </AppRouterCacheProvider>
+        </html>
+      </ThemeProvider>
+    </ToastProvider>
   );
 }

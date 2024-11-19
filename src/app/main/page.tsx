@@ -14,9 +14,11 @@ import ProductItem from '@/components/ProductItem/ProductItem';
 import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
 import { createOrderPost } from '@/apis/orders/orders';
+import { useToast } from '@/context/ToastContext';
 
 
 const Main = () => {
+  const { notify } = useToast();
   const { userInfo, setUserInfo } = useContext(AuthContext) || {}
   const pathname = usePathname()
   const router = useRouter(); 
@@ -180,7 +182,12 @@ const Main = () => {
     };
     // Aquí puedes agregar la llamada a la API para enviar totalTicket
     console.log('Ticket a enviar:', totalTicket);
-    createOrderPost(totalTicket)
+    try {
+      createOrderPost(totalTicket)
+      notify('Orden creada correctamente', 'success')
+    } catch (error) {
+      notify('Error al crear la orden' + error, 'error')
+    }
   }
 
   return (
@@ -274,3 +281,4 @@ const btnTabActive = {
   color: '#669DF0',
   margin: '10px',
 }
+
