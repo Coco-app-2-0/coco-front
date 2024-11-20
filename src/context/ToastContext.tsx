@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useContext } from 'react';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

@@ -12,22 +12,26 @@ import CommentModal from '../CommentModal/CommentModal'
 interface TicketProps {
   products: ProductTicket[];
   deleteProduct: (products: ProductTicket[]) => void;
+  setCommentTicket: (comment: string) => void;
 }
 
-const Ticket = ({products, deleteProduct}: TicketProps) => {
+const Ticket = ({products, deleteProduct, setCommentTicket}: TicketProps) => {
 
   const [ openModal, setOpenModal ] = useState<boolean>(false)
   const [ comment, setComment ] = useState<string>()
 
   const handleDelete = (product: any) => {
-    // Crear una nueva lista usando filter para evitar mutaciones
     const updatedProducts = products.filter((p) => p !== product);
-    // Actualizar el estado con la nueva lista
     deleteProduct(updatedProducts);
   };
 
   const handleTrashProducts = () => {
     deleteProduct([])
+  }
+
+  const handleSetComment = (comment: string) => {
+    setCommentTicket(comment);
+    setOpenModal(false);
   }
 
   return (
@@ -100,7 +104,7 @@ const Ticket = ({products, deleteProduct}: TicketProps) => {
         ))}
       </div>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <CommentModal comment={comment || ''} setComment={setComment} onCloseModal={() => setOpenModal(false)} />
+        <CommentModal comment={comment || ''} setComment={handleSetComment} onCloseModal={() => setOpenModal(false)} />
       </Modal>
     </div>
   )

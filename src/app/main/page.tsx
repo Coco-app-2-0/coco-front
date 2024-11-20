@@ -15,6 +15,7 @@ import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
 import { createOrderPost } from '@/apis/orders/orders';
 import { useToast } from '@/context/ToastContext';
+import ClientModal from '@/components/ ClientModal/ ClientModal';
 
 
 const Main = () => {
@@ -32,6 +33,9 @@ const Main = () => {
   const [ openModal, setOpenModal ] = useState<boolean>(false)
   const [ currenProduct, setCurrentProduct ] = useState<any | null>(null)
   const [ typePurchaseState, setTypePurchase ] = useState<number | null>(1)
+  const [ openModalClient, setOpenModalClient ] = useState<boolean>(false)
+  const [ currentClient, setCurrentClient ] = useState<any | null>(null)
+  const [ coments, setComents ] = useState<string>('')
 
   const getDataCategories = async (idTienda: number) => {
     setLoading(true)
@@ -150,10 +154,9 @@ const Main = () => {
   }, [selectedProducts]); 
 
   const createOrder = () => {
-    // Mapeo de productos con la cantidad correcta desde el estado
     const productos = selectedProducts.map(product => ({
       idProducto: product.idProducto,
-      cantidad: product.quantity, // Usando la cantidad del estado en lugar de valor fijo
+      cantidad: product.quantity,
       precio: product.precio,
       configuracion: {
         ingredientes: product?.configuracion?.ingredientes 
@@ -164,31 +167,37 @@ const Main = () => {
         extras: product?.configuracion?.extras 
           ? product.configuracion.extras.map((extra: any) => ({
               idExtra: extra.idExtra,
-              cantidad: extra.cantidad || 1, // Usando la cantidad del extra si existe
+              cantidad: extra.cantidad || 1,
               precio: extra.precio
             })) 
           : []
       },
     }));
     const totalTicket = {
-      idCliente: 1,
-      tipoCliente: "app", // Cambiado a minúsculas
+      idCliente: currentClient?.idCliente || 0,
+      tipoCliente: currentClient?.tipo || "app",
       idTienda: userInfo?.idTienda || 0,
       idHijo: 0,
-      monto: Number(subTotal.toFixed(2)), // Asegurando que sea número con 2 decimales
-      tipoCobro: typePurchaseState || 1, // Valor por defecto 1 si no hay estado
-      comentarios: "", // Vacío por defecto
+      monto: Number(subTotal.toFixed(2)),
+      tipoCobro: typePurchaseState || 1,
+      comentarios: coments,
       productos: productos
     };
-    // Aquí puedes agregar la llamada a la API para enviar totalTicket
     console.log('Ticket a enviar:', totalTicket);
     try {
       createOrderPost(totalTicket)
       notify('Orden creada correctamente', 'success')
     } catch (error) {
-      notify('Error al crear la orden' + error, 'error')
+      notify('Error al crear la orden', 'error')
     }
   }
+
+
+  useEffect(() => {
+    if (typePurchaseState === 3) {
+      setOpenModalClient(true)
+    }
+  }, [typePurchaseState])
 
   return (
     <>
@@ -238,13 +247,16 @@ const Main = () => {
           </div>
         </div>
         <div className={styles.containerTicket}>
-          <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} />
+          <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} setCommentTicket={setComents} />
           <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
         </div>
       </section>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        {/* eslint-disable-next-line */}
           <ConfigModalProduct product={currenProduct} onClose={() => setOpenModal(false)} configProduct={(product) => product ? addProduct(product, true) : null} />
+      </Modal>
+
+      <Modal open={openModalClient} onClose={() => setOpenModalClient(false)}>
+        <ClientModal idTienda={userInfo?.idTienda || 0} isOpen={openModalClient} onClose={() => setOpenModalClient(false)} onCobrar={(client) => setCurrentClient(client)} />
       </Modal>
     </>
   );

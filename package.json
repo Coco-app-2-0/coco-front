@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^6.1.5",
     "@ombori/ga-messaging": "^4.1.27",
     "@ombori/ga-thermal-printer-react": "^4.1.27",
+    "@tanstack/react-table": "^8.20.5",
     "@toolpad/core": "^0.8.1",
     "axios": "^1.7.7",
     "esc-pos-printer": "^1.0.11",
@@ -36,6 +37,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-table": "^7.7.20",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
     "typescript": "^5"
