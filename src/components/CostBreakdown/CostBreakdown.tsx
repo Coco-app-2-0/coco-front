@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './costBreakdown.module.css'
 import { Button, IconButton, Typography } from '@mui/material'
 import CashIcon from '../../assets/images/cash-icon.svg'
@@ -17,10 +17,14 @@ interface CostBreakdownProps {
 const CostBreakdown = ({subTotal, clickBtn, typePurchase, disabledButton = true}: CostBreakdownProps) => {
   const [selectedMethod, setSelectedMethod] = useState<number | null>(null);
 
-  const changeType = (id: number) => {
-    setSelectedMethod(id)
-    typePurchase(id)
+  const changeType = () => {
+    typePurchase(selectedMethod)
   }
+
+
+  useEffect(() => {
+    changeType()
+  }, [selectedMethod])
 
   return (
     <div className={styles.costBreakdown}>
@@ -33,7 +37,7 @@ const CostBreakdown = ({subTotal, clickBtn, typePurchase, disabledButton = true}
         <div className={styles.methods}>
           <div className={styles.containButton}>
             <IconButton
-              onClick={() => changeType(1)} 
+              onClick={() => setSelectedMethod(1)} 
               style={{ backgroundColor: selectedMethod === 1 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado 
@@ -44,7 +48,7 @@ const CostBreakdown = ({subTotal, clickBtn, typePurchase, disabledButton = true}
           </div>
           <div className={styles.containButton}>
             <IconButton
-              onClick={() => changeType(2)} 
+              onClick={() => setSelectedMethod(2)} 
               style={{ backgroundColor: selectedMethod === 2 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado
@@ -55,7 +59,7 @@ const CostBreakdown = ({subTotal, clickBtn, typePurchase, disabledButton = true}
           </div>
           <div className={styles.containButton}>
             <IconButton 
-              onClick={() => changeType(3)} 
+              onClick={() => setSelectedMethod(3)} 
               style={{ backgroundColor: selectedMethod === 3 ? '#FD9A3559' : 'transparent',
                 border: '1px solid #EA801F',
                 borderRadius: '6px', height: '40px', width: '40px' }} // Cambiar fondo si está seleccionado
