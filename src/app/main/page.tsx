@@ -187,7 +187,7 @@ const Main = () => {
     try {
       createOrderPost(totalTicket)
       notify('Orden creada correctamente', 'success')
-    } catch (error) {
+    } catch {
       notify('Error al crear la orden', 'error')
     }
   }

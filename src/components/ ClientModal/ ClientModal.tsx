@@ -4,6 +4,7 @@ import styles from './ClientModal.module.css'
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
+import { Client } from '@/utils/types';
 
 
 interface ClientModalProps {
@@ -34,8 +35,8 @@ const ClientModal = ({ idTienda, isOpen, onClose, onCobrar }: ClientModalProps) 
     }
   }, [idTienda, isOpen]);
 
-  const filteredClients = clients.filter(client => {
-    return Object.values(client).some(value =>
+  const filteredClients = clients.filter((client: Client) => {
+    return Object.values(client).some((value: any) =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -78,7 +79,7 @@ const ClientModal = ({ idTienda, isOpen, onClose, onCobrar }: ClientModalProps) 
               </tr>
             </thead>
             <tbody>
-              {filteredClients.map((row, index) => (
+              {filteredClients.map((row: Client, index: number) => (
                 <tr key={index} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                   <td className={styles.clientName} >{row.nombreCliente}</td>
                   <td><span  className={row.tipo === "Libreta" ? styles.libreta : styles.app} >{row.tipo}</span></td>

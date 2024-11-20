@@ -29,8 +29,9 @@ const Ticket = ({products, deleteProduct, setCommentTicket}: TicketProps) => {
     deleteProduct([])
   }
 
-  const handleSetComment = (comment: string) => {
-    setCommentTicket(comment);
+  const handleSetComment = (commentTicket: string) => {
+    setCommentTicket(commentTicket);
+    setComment(commentTicket);
     setOpenModal(false);
   }
 

@@ -97,3 +97,14 @@ export interface Opciones {
   precio: number
 }
 
+
+export interface Client {
+  categoria: string;
+  grado: string;
+  grupo: string;
+  idCliente: number;
+  idHijo: number;
+  nombreCliente: string;
+  saldo: number;
+  tipo: string;
+}
