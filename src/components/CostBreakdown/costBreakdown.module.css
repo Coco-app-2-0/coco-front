@@ -37,3 +37,28 @@
   flex-direction: column;
   align-items: center;
 }
+.clientInfo {
+  width: 100%;
+}
+
+.clientTicketHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.libreta {
+  padding: 4px;
+  background-color: #C6BFD2;
+  color: #3F2766;
+  border-radius: 4px;
+  height: fit-content;
+}
+
+.app {
+  padding: 4px;
+  background-color: #176DEE33;
+  color: #176DEE;
+  border-radius: 4px;
+  height: fit-content;
+}

@@ -87,7 +87,7 @@ export interface Ingrediente {
 export interface Extra {
   idExtra: number;
   cantidad: number;
-  precio: number; // precio individual del extra
+  precio: number;
 }
 
 export interface Opciones {

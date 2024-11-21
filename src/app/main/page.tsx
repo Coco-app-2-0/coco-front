@@ -186,6 +186,7 @@ const Main = () => {
     console.log('Ticket a enviar:', totalTicket);
     try {
       createOrderPost(totalTicket)
+      setSelectedProducts([])
       notify('Orden creada correctamente', 'success')
     } catch {
       notify('Error al crear la orden', 'error')
@@ -248,7 +249,7 @@ const Main = () => {
         </div>
         <div className={styles.containerTicket}>
           <Ticket products={selectedProducts} deleteProduct={setSelectedProducts} setCommentTicket={setComents} />
-          <CostBreakdown subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} />
+          <CostBreakdown selectedClient={currentClient} subTotal={subTotal} clickBtn={createOrder} typePurchase={setTypePurchase} disabledButton={selectedProducts.length === 0} removeClient={() => setCurrentClient(null)} />
         </div>
       </section>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
