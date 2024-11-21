@@ -82,7 +82,7 @@ const ClientModal = ({ idTienda, isOpen, onClose, onCobrar }: ClientModalProps) 
               {filteredClients.map((row: Client, index: number) => (
                 <tr key={index} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                   <td className={styles.clientName} >{row.nombreCliente}</td>
-                  <td><span  className={row.tipo === "Libreta" ? styles.libreta : styles.app} >{row.tipo}</span></td>
+                  <td><span  className={row.tipo === "libreta" ? styles.libreta : styles.app} >{row.tipo}</span></td>
                   <td className={styles.clientGrade}>{row.grado}</td>
                   <td className={styles.clientGroup}>{row.grupo}</td>
                   <td className={styles.clientCategory}>{row.categoria}</td>
