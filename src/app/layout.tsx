@@ -34,7 +34,7 @@ export default function RootLayout({
             <ToastProvider>
               <body className={inter.className}>
                 {pathname !== '/login' && <SidebarMenu onToggle={handleToggleSidebar} isOpen={isSidebarOpen} />}
-                <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s' }}>
+                <main style={{ marginLeft: isSidebarOpen && pathname !== '/login' ? '250px' : '0', transition: 'margin-left 0.3s', display: 'flex', flexDirection: 'column' }}>
                   {children}
                 </main>
               </body>

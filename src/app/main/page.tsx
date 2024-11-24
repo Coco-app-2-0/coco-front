@@ -15,7 +15,7 @@ import CostBreakdown from '@/components/CostBreakdown/CostBreakdown';
 import ConfigModalProduct from '@/components/ConfigModalProduct/ConfigModalProduct';
 import { createOrderPost } from '@/apis/orders/orders';
 import { useToast } from '@/context/ToastContext';
-import ClientModal from '@/components/ ClientModal/ ClientModal';
+import ClientModal from '@/components/ClientModal/ ClientModal';
 
 
 const Main = () => {

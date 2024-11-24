@@ -108,3 +108,21 @@ export interface Client {
   saldo: number;
   tipo: string;
 }
+
+
+interface GuardarClienteLibretaRequest {
+  tipo: number;
+  nombre: string;
+  apellidos: string;
+  nivel: number;
+  grado: number;
+  grupo: string;
+  idTienda: number;
+  saldoInicial: number;
+}
+
+interface GuardarClienteLibretaResponse {
+  success: boolean;
+  message: string;
+  idCliente: string;
+}

@@ -7,6 +7,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import TextInputForm from '../TextInputForm';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface NavInfoProps {
   queueCount: number; // Nueva propiedad para el conteo de pedidos
@@ -82,12 +83,14 @@ const NavInfo = ({queueCount}: NavInfoProps) => {
 
         </div>
         <div>
-          <Button className={styles.btnClients}>
-            <Image src={ClientIcon} alt={'clients'} className={styles.clienIcon} />
+          <Link href="/clientes">
+            <Button className={styles.btnClients}>
+              <Image src={ClientIcon} alt={'clients'} className={styles.clienIcon} />
             <Typography sx={{fontFamil:'Inter', fontWeight: 700, fontSize:'0.875rem', color: '#000000'}}>
               Clientes
             </Typography>
-          </Button>
+            </Button>
+          </Link>
         </div>
     </section>
   )
