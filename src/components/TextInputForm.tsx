@@ -36,10 +36,7 @@ const TextInputForm = ({
           helperText={error ? error.message : null}
           size="small"
           error={!!error}
-          onChange={(e) => {
-            onChange(e)
-            onChange && onChange(e)
-          }}
+          onChange={onChange}
           value={value}
           type={inputType}
           fullWidth

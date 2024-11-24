@@ -4,22 +4,22 @@ import { getClients } from '@/apis/clients/clients';
 import { AuthContext } from '@/context/AuthContext';
 import styles from './clientes.module.css';
 import { Client } from '@/utils/types';
-import TextInputForm from '@/components/TextInputForm';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import ClientIcon from '../../assets/images/client-icon.svg'
-import { Button, InputAdornment, Link, Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 
 const Clientes = () => {
   const [clientes, setClientes] = useState<Client[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { userInfo } = useContext(AuthContext);
-  const { control, register } = useForm()
+  const { userInfo } = useContext(AuthContext) ?? {};
+  const { register } = useForm()
   const fetchClientes = async () => {
+    if (!userInfo?.idTienda) return;
     try {
-      const { data } = await getClients(userInfo.idTienda);
+      const { data } = await getClients(userInfo?.idTienda.toString());
       setClientes(data.clientes);
     } catch (err) {
       console.error('Error al obtener los clientes', err);
