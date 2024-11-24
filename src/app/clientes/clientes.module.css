@@ -1,0 +1,215 @@
+.containerClients {
+  margin-left: 60px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 92%;
+  background-color: #fff;
+  border-radius: 8px;
+  max-height: 850px;
+}
+
+.navBar {
+  margin-left: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.clientsSearch {
+  margin-bottom: 1rem;
+}
+
+.clientModal {
+  padding: 1rem;
+  width: 954px;
+  height: 585px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clientModalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100%;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeIcon {
+  background-color: transparent;
+  color: #00000080;
+  width: 20px;
+  height: 20px;
+}
+.modalSubtitle {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.modalTitle {
+  margin-bottom: 1rem;
+  color: #000;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.searchInput {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.clientTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.clientTable th {
+  border-bottom: 2px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+  color: #000;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.clientTable td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.evenRow {
+  background-color: #FE82091A;
+}
+
+.oddRow {
+  background-color: #fff;
+}
+
+.libreta {
+  padding: 4px;
+  background-color: #C6BFD2;
+  color: #3F2766;
+  border-radius: 4px;
+}
+
+.app {
+  padding: 4px;
+  background-color: #176DEE33;
+  color: #176DEE;
+  border-radius: 4px;
+}
+
+.saldo {
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #E8F9EC;
+  color: #3F8E00;
+  font-weight: bold;
+}
+
+.actionButton {
+  color: orange;
+  border: none;
+  background: none;
+}
+
+.tableContainer {
+  max-height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #fff;
+  /* Estilos personalizados para el scrollbar */
+  scrollbar-width: thin; /* Para navegadores Firefox */
+  scrollbar-color: orange transparent; /* Para navegadores Firefox */
+}
+
+/* Para navegadores WebKit (Chrome, Safari) */
+.tableContainer::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background-color: orange; /* Color del thumb */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: transparent; /* Color del track */
+}
+
+.clientName {
+  color: #000;
+  font-weight: 600;
+}
+
+.clientGrade,
+.clientGroup,
+.clientCategory {
+  color: #000;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.btnClients {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 12px;
+  margin: 0 auto !important;
+  width: 117.33px !important;
+  height: 48px !important;
+  background: #F9F9F9 !important;
+  border: 1px solid #E0E0E0 !important;
+  border-radius: 6px !important;
+}
+
+.clientsSearch{
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc; /* Borde del contenedor */
+  border-radius: 30px; /* Bordes redondeados */
+  padding: 0 10px; /* Espaciado interno */
+}
+
+.searchIcon {
+  margin-right: 10px; /* Espacio entre el ícono y el input */
+  color: #888; /* Color del ícono */
+}
+
+.searchInput {
+  padding-left: 0; /* Eliminado espacio para el ícono */
+  height: 40px; /* Ajusta según sea necesario */
+  border: 1px solid transparent; /* Bordes transparentes */
+  border-radius: 4px; /* Bordes redondeados */
+  margin-bottom: 0;
+}
+
+/* Borde transparente al hacer focus */
+.searchInput:focus {
+  border: 1px solid transparent; /* Bordes transparentes en focus */
+  outline: none; /* Eliminar el contorno por defecto */
+}
+
+.actionsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
