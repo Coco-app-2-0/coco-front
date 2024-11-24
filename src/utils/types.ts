@@ -110,7 +110,7 @@ export interface Client {
 }
 
 
-interface GuardarClienteLibretaRequest {
+export interface GuardarClienteLibretaRequest {
   tipo: number;
   nombre: string;
   apellidos: string;
@@ -121,7 +121,7 @@ interface GuardarClienteLibretaRequest {
   saldoInicial: number;
 }
 
-interface GuardarClienteLibretaResponse {
+export interface GuardarClienteLibretaResponse {
   success: boolean;
   message: string;
   idCliente: string;
