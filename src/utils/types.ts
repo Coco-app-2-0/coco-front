@@ -46,8 +46,8 @@ export interface ConfigProduct {
 }
 
 export interface ConfigProductOption {
-  tipo_1: ConfigProductOptionType[]
-  tipo_2: ConfigProductOptionType[]
+  tipo_1: ConfigProductOptionType
+  tipo_2: ConfigProductOptionType
 }
 
 export interface ConfigProductOptionType {
