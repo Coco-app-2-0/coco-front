@@ -21,7 +21,17 @@ const Ticket = ({products, deleteProduct, setCommentTicket}: TicketProps) => {
   const [ comment, setComment ] = useState<string>()
 
   const handleDelete = (product: any) => {
-    const updatedProducts = products.filter((p) => p !== product);
+    const updatedProducts = products.map((p) => {
+      if (p === product) {
+        if (p.quantity > 1) {
+          return { ...p, quantity: p.quantity - 1 };
+        } else {
+          return null; // Eliminar el producto si la cantidad es 1
+        }
+      }
+      return p; 
+    }).filter((p) => p !== null); // Filtrar productos nulos
+
     deleteProduct(updatedProducts);
   };
 
@@ -88,6 +98,16 @@ const Ticket = ({products, deleteProduct, setCommentTicket}: TicketProps) => {
                           {product?.configuracion?.ingredientes && product?.configuracion?.ingredientes.map((ingrediente, l) => 
                             <li key={l}><Typography >{ingrediente.nombre}</Typography></li>
                           )}
+                          {product?.configuracion?.opciones && (
+                              <>
+                                <li>
+                                  <Typography >{product?.configuracion?.opciones.tipo_1?.nombre}</Typography>
+                                </li>
+                                <li>
+                                  <Typography >{product?.configuracion?.opciones.tipo_2?.nombre}</Typography>
+                                </li>
+                              </>
+                            )}
                         </>
                       )
                     }
