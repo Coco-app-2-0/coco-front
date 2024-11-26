@@ -9,18 +9,23 @@ import Image from 'next/image';
 import ClientIcon from '../../assets/images/client-icon.svg'
 import { Button, Link, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { usePathname, useRouter } from 'next/navigation';
 
 
 const Clientes = () => {
   const [clientes, setClientes] = useState<Client[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { userInfo } = useContext(AuthContext) ?? {};
+  const { userInfo, setUserInfo } = useContext(AuthContext) ?? {};
+  const pathname = usePathname()
+  const router = useRouter(); 
   const { register } = useForm()
   const fetchClientes = async () => {
-    if (!userInfo?.idTienda) return;
+    // if (!userInfo?.idTienda) return;
     try {
-      const { data } = await getClients(userInfo?.idTienda.toString());
-      setClientes(data.clientes);
+      if (userInfo?.idTienda) {
+        const { data } = await getClients(userInfo?.idTienda.toString());
+        setClientes(data.clientes);
+      }
     } catch (err) {
       console.error('Error al obtener los clientes', err);
     } finally {
@@ -37,10 +42,32 @@ const Clientes = () => {
   };
 
   useEffect(() => {
-    if (userInfo && userInfo.idTienda) {
+    console.log('inicia', userInfo)
+    if (userInfo) {
       fetchClientes();
+      console.log('inicia')
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (!userInfo) {
+      const storedUserInfo = localStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        const parsedUserInfo = JSON.parse(storedUserInfo);
+        if (parsedUserInfo) {
+          if (setUserInfo) {
+            setUserInfo(parsedUserInfo);
+          }
+        } else {
+          router.push('/login');
+        }
+      } else {
+        router.push('/login');
+      }
+    } else if (pathname === '/login') {
+      router.push('/main');
+    }
+  }, [userInfo, pathname, router]);
 
 
   const handleChange = (e: any) => {
@@ -68,10 +95,10 @@ const Clientes = () => {
       </div>
       <section className={styles.containerClients}>
         <div className={styles.actionsContainer}>
-          <Button variant='outlined' className={styles.btnCreateOrder}>
+          <Button variant='outlined' className={styles.btnCreateClient}>
             Nuevo cliente +
           </Button>
-        <div className={styles.clientsSearch} style={{ width: '100%', height: '100%', position: 'relative' }}>
+        <div className={styles.clientsSearch} >
           <SearchIcon className={styles.searchIcon} /> {/* Agregado el ícono de búsqueda */}
           <input 
             type="text" 

@@ -181,6 +181,8 @@
 }
 
 .clientsSearch{
+  height: '100%';
+  position: 'relative';
   display: flex;
   align-items: center;
   border: 1px solid #ccc; /* Borde del contenedor */
@@ -194,7 +196,7 @@
 }
 
 .searchInput {
-  padding-left: 0; /* Eliminado espacio para el ícono */
+  padding-left: 0; /* Eliminado espacio para el ícono */  
   height: 40px; /* Ajusta según sea necesario */
   border: 1px solid transparent; /* Bordes transparentes */
   border-radius: 4px; /* Bordes redondeados */
@@ -212,4 +214,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.btnCreateClient {
+  padding: 0 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border-radius: 30px !important;
 }
