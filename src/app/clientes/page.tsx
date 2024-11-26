@@ -42,10 +42,8 @@ const Clientes = () => {
   };
 
   useEffect(() => {
-    console.log('inicia', userInfo)
     if (userInfo) {
       fetchClientes();
-      console.log('inicia')
     }
   }, [userInfo]);
 

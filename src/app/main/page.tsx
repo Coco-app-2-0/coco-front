@@ -186,6 +186,7 @@ const Main = () => {
     try {
       createOrderPost(totalTicket)
       setSelectedProducts([])
+      setCurrentClient(null)
       notify('Orden creada correctamente', 'success')
     } catch {
       notify('Error al crear la orden', 'error')
