@@ -94,7 +94,7 @@ const Clientes = () => {
       </div>
       <section className={styles.containerClients}>
         <div className={styles.actionsContainer}>
-          <Button variant='outlined' className={styles.btnCreateClient} onClick={() => setShowForm(true)}>
+          <Button variant='outlined' className={styles.btnCreateClient} onClick={() => setShowForm(true)} sx={{fontSize: '0.875rem'}}>
             Nuevo cliente +
           </Button>
         <div className={styles.clientsSearch} >

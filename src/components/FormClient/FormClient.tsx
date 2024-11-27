@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './FormClient.module.css';
 import { FormDataClient } from '@/utils/types';
@@ -17,10 +17,7 @@ const FormClient: React.FC<FormClientProps> = ({ onClose }) => {
         mode: 'onChange',
     });
 
-    const [formData, setFormData] = useState<FormDataClient | null>(null);
-
     const onSubmit = (data: FormDataClient) => {
-        setFormData(data);
         onClose()
         console.log(data);
     };
