@@ -222,3 +222,10 @@
   font-weight: 400 !important;
   border-radius: 30px !important;
 }
+
+.modal {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

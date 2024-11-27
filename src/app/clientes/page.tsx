@@ -7,15 +7,17 @@ import { Client } from '@/utils/types';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import ClientIcon from '../../assets/images/client-icon.svg'
-import { Button, Link, Typography } from '@mui/material';
+import { Button, Link, Modal, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { usePathname, useRouter } from 'next/navigation';
+import FormClient from '@/components/FormClient/FormClient';
 
 
 const Clientes = () => {
   const [clientes, setClientes] = useState<Client[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { userInfo, setUserInfo } = useContext(AuthContext) ?? {};
+  const [showForm, setShowForm] = useState(false);
   const pathname = usePathname()
   const router = useRouter(); 
   const { register } = useForm()
@@ -67,7 +69,6 @@ const Clientes = () => {
     }
   }, [userInfo, pathname, router]);
 
-
   const handleChange = (e: any) => {
     setSearchTerm(e.target.value);
   } 
@@ -89,11 +90,11 @@ const Clientes = () => {
               Clientes
             </Typography>
             </Button>
-          </Link>
+        </Link>
       </div>
       <section className={styles.containerClients}>
         <div className={styles.actionsContainer}>
-          <Button variant='outlined' className={styles.btnCreateClient}>
+          <Button variant='outlined' className={styles.btnCreateClient} onClick={() => setShowForm(true)}>
             Nuevo cliente +
           </Button>
         <div className={styles.clientsSearch} >
@@ -119,7 +120,7 @@ const Clientes = () => {
               </tr>
             </thead>
             <tbody>
-              {filterClientes(clientes, searchTerm) // Aplica la función de filtrado
+              {filterClientes(clientes, searchTerm)
                 .map((row, index) => (
                   <tr key={index} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                     <td className={styles.clientName}>{row.nombreCliente}</td>
@@ -134,6 +135,9 @@ const Clientes = () => {
           </table>
         </div>
       </section>
+      <Modal open={showForm} onClose={() => setShowForm(false)} className={styles.modal}>
+        <FormClient onClose={() => setShowForm(false)} />
+      </Modal>
     </>
   );
 };
