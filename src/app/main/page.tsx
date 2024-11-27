@@ -73,7 +73,6 @@ const Main = () => {
 
   useEffect(() => {
     if (userInfo) {
-      // getDataCategories(userInfo.idTienda)
       getDataCategories(userInfo.idTienda).then(() => {
         if (categories.length > 0) { // Verifica que categories tenga elementos
           console.log(categories[0])
@@ -187,6 +186,7 @@ const Main = () => {
     try {
       createOrderPost(totalTicket)
       setSelectedProducts([])
+      setCurrentClient(null)
       notify('Orden creada correctamente', 'success')
     } catch {
       notify('Error al crear la orden', 'error')

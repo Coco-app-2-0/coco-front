@@ -109,6 +109,16 @@ export interface Client {
   tipo: string;
 }
 
+export interface FormDataClient {
+  nombre: string;
+  apellidos: string;
+  tipo: string;
+  saldoInicial: string;
+  nivel: string;
+  grado: string;
+  grupo: string;
+}
+
 
 export interface GuardarClienteLibretaRequest {
   tipo: number;
