@@ -120,6 +120,13 @@
   color: #3F8E00;
   font-weight: bold;
 }
+.negativeBalance {
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #FF000033;
+  color: #FF000099;
+  font-weight: bold;
+}
 
 .actionButton {
   color: orange;

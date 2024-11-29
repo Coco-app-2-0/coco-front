@@ -160,7 +160,11 @@ const Clientes = () => {
                     <td className={styles.clientGrade}>{row.grado}</td>
                     <td className={styles.clientGroup}>{row.grupo}</td>
                     <td className={styles.clientCategory}>{row.nivel}</td>
-                    <td><span className={styles.saldo}>${row.saldo.toFixed(2)} MXN</span></td>
+                    <td>
+                      <span className={`${row.saldo < 0 ? styles.negativeBalance : styles.saldo}`}>
+                        ${row.saldo.toFixed(2)} MXN
+                      </span>
+                    </td>
                     <td>
                       <MoreHorizIcon onClick={() => handleShowFormUpdate(row)} style={{ cursor: 'pointer', color: '#000000' }} />
                       <IconButton onClick={() => handleShowFormUpdate(row)}>

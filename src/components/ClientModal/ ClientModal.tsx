@@ -86,7 +86,11 @@ const ClientModal = ({ idTienda, isOpen, onClose, onCobrar }: ClientModalProps) 
                   <td className={styles.clientGrade}>{row.grado}</td>
                   <td className={styles.clientGroup}>{row.grupo}</td>
                   <td className={styles.clientCategory}>{row.categoria}</td>
-                  <td><span className={styles.saldo}>${row.saldo.toFixed(2)} MXN</span></td>
+                  <td>
+                      <span className={`${row.saldo < 0 ? styles.negativeBalance : styles.saldo}`}>
+                        ${row.saldo.toFixed(2)} MXN
+                      </span>
+                    </td>
                   <td>
                     <Button variant="outlined" color="primary" onClick={() => handleCobrar(row)}>Cobrar</Button>
                   </td>
