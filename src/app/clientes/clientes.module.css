@@ -151,7 +151,8 @@
   background: transparent; /* Color del track */
 }
 
-.clientName {
+.clientName,
+.clientLastName {
   color: #000;
   font-weight: 600;
 }
@@ -230,4 +231,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.MuiMenu-root {
+  box-shadow: none !important;
 }

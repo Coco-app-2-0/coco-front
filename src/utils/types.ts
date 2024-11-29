@@ -100,13 +100,27 @@ export interface Opciones {
 
 export interface Client {
   categoria: string;
-  grado: string;
+  grado: number;
   grupo: string;
   idCliente: number;
   idHijo: number;
   nombreCliente: string;
+  apellidosCliente: string;
   saldo: number;
   tipo: string;
+  nivel?: string;
+}
+
+export interface ClientLibreta {
+  idCliente: number; // Cambiar a number
+  tipo: number; // Cambiar a number
+  nombreCliente: string; // Sin cambios
+  apellidosCliente: string; // Sin cambios
+  nivel: string; // Sin cambios
+  grado: string; // Cambiar a string
+  grupo: string; // Sin cambios
+  saldo: number; // Sin cambios
+  // ... otras propiedades ...
 }
 
 export interface FormDataClient {
@@ -114,9 +128,10 @@ export interface FormDataClient {
   apellidos: string;
   tipo: string;
   saldoInicial: string;
-  nivel: string;
-  grado: string;
+  nivel: number;
+  grado: number;
   grupo: string;
+  idTienda: number;
 }
 
 
@@ -130,9 +145,28 @@ export interface GuardarClienteLibretaRequest {
   idTienda: number;
   saldoInicial: number;
 }
+export interface updateClientLibreta {
+  tipo: number;
+  nombre: string;
+  apellidos: string;
+  nivel: number;
+  grado: number;
+  grupo: string;
+  idTienda: number;
+  saldoInicial: number;
+  saldo?: number;
+}
 
 export interface GuardarClienteLibretaResponse {
   success: boolean;
   message: string;
   idCliente: string;
+}
+
+
+export interface BalanceClient {
+  idCliente: number;
+  monto: number;
+  comentarios: string;
+  idTienda: number;
 }
