@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './FormClient.module.css';
 import { GuardarClienteLibretaRequest, updateClientLibreta } from '@/utils/types';
-import { Button, MenuItem, Select, Typography } from '@mui/material';
+import { Button, Input, InputAdornment, MenuItem, Select, Typography } from '@mui/material';
 import Image from 'next/image';
 import logoClient from '../../assets/images/client-icon-form.svg';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,7 +25,7 @@ const FormClient: React.FC<FormClientProps> = ({ onClose, idTienda, userData }) 
       tipo: userData?.tipo ? Number(userData.tipo) : undefined,
       nivel: userData?.nivel ? Number(userData.nivel) : undefined,
     }, 
-});
+  });
 
 const nivelMap: { [key: string]: string } = {
   Kinder: '1',
@@ -45,32 +45,32 @@ const gradoMap: { [key: string]: string } = {
 const defaultGrado = gradoMap[userData?.grado?.toString() as string] || '';
 
 const onSubmit = async (data: GuardarClienteLibretaRequest | updateClientLibreta) => {
+  console.log('poke', data)
   try {
-      const response = userData 
-          ? await updateClient({
-            tipo: Number(data.tipo),
-            nombre: data.nombre,
-            apellidos: data.apellidos,
-            nivel: Number(data.nivel),
-            grado: Number(data.grado),
-            grupo: data.grupo,
-            idTienda,
-            idCliente: userData?.idCliente
-          })
-          : await createClient({
-            tipo: Number(data.tipo),
-            nombre: data.nombre,
-            apellidos: data.apellidos,
-            nivel: Number(data.nivel),
-            grado: Number(data.grado),
-            grupo: data.grupo,
-            idTienda,
-            // @ts-expect-error: Se espera que 'saldoInicial' sea un string, pero puede ser un número.
-            saldoInicial: data.saldoInicial ? Number(data.saldoInicial.replace(/[, $]/g, '')) : 0
-          });
-      if (response.data.success) {
-          toast.success(userData ? 'Cliente actualizado correctamente' : 'Cliente creado correctamente');
-      }
+    const response = userData 
+        ? await updateClient({
+          tipo: Number(data.tipo),
+          nombre: data.nombre,
+          apellidos: data.apellidos,
+          nivel: Number(data.nivel),
+          grado: Number(data.grado),
+          grupo: data.grupo,
+          idTienda,
+          idCliente: userData?.idCliente
+        })
+        : await createClient({
+          tipo: Number(data.tipo),
+          nombre: data.nombre,
+          apellidos: data.apellidos,
+          nivel: Number(data.nivel),
+          grado: Number(data.grado),
+          grupo: data.grupo,
+          idTienda,
+          saldoInicial: data.saldoInicial
+        });
+    if (response.data.success) {
+        toast.success(userData ? 'Cliente actualizado correctamente' : 'Cliente creado correctamente');
+    }
   } catch (error) {
     console.log(error)
       toast.error('Error al guardar el cliente');
@@ -135,17 +135,16 @@ const onSubmit = async (data: GuardarClienteLibretaRequest | updateClientLibreta
                   </label>
                   { !userData && (
                   <label className={styles.formLabel}>
-                      Saldo Inicial
-                      <input 
-                          className={styles.formInput} 
-                          {...register('saldoInicial', { required: true, valueAsNumber: true })} 
-                          type="text" 
-                          defaultValue={userData?.saldo ? userData.saldo.toString() : ''} 
-                          onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
-                              e.target.value = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(Number(value) / 100); // Formatear como moneda
-                          }} 
-                      />
+                  Saldo Inicial
+                  <Input
+                      className={styles.formInput}
+                      sx={{height: '36px'}}
+                      {...register('saldoInicial', { required: true, valueAsNumber: true })}
+                      type="text"
+                      defaultValue={userData?.saldo ? userData.saldo.toString() : ''}
+                      startAdornment="$"
+                  />
+                  {errors.saldoInicial && <span>Este campo es obligatorio</span>}
                   </label>
                   )}
               </div>
@@ -163,7 +162,7 @@ const onSubmit = async (data: GuardarClienteLibretaRequest | updateClientLibreta
                           </MenuItem>
                         ))}
                       </Select>
-                      {errors.nivel && <span>Este campo es obligatorio</span>}
+                      {/* {errors.nivel && <span>Este campo es obligatorio</span>} */}
                   </label>
                   <label className={styles.formLabel}>
                       Grado
@@ -178,7 +177,7 @@ const onSubmit = async (data: GuardarClienteLibretaRequest | updateClientLibreta
                           </MenuItem>
                         ))}
                       </Select>
-                      {errors.grado && <span>Este campo es obligatorio</span>}
+                      {/* {errors.grado && <span>Este campo es obligatorio</span>} */}
                   </label>
                   <label className={styles.formLabel}>
                       Grupo

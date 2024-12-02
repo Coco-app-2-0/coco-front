@@ -16,9 +16,12 @@ import PencilIcon from '../../assets/images/pencil-icon.svg'
 import MinusIcon from '../../assets/images/minus-icon.svg'
 import ArchiveIcon from '../../assets/images/archive-icon.svg'
 import FormEditBalance from '@/components/FormClient/FormEditBalance/FormEditBalance';
+import { toast } from 'react-toastify';
+import Loading from '@/components/Loading/Loading';
 
 
 const Clientes = () => {
+  const [loading, setLoading] = useState(false)
   const [clientes, setClientes] = useState<Client[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { userInfo, setUserInfo } = useContext(AuthContext) ?? {};
@@ -30,15 +33,18 @@ const Clientes = () => {
   const { register } = useForm()
 
   const fetchClientes = async () => {
+    setLoading(true)
     try {
       if (userInfo?.idTienda) {
         const { data } = await getClientsLibreta(userInfo?.idTienda.toString());
         setClientes(data.clientes);
+        // toast.success('Clientes obtenidos correctamente')
       }
     } catch (err) {
       console.error('Error al obtener los clientes', err);
+      toast.error('Error al obtener los clientes')
     } finally {
-      console.log('Carga completada');
+      setLoading(false)
     }
   };
 
@@ -96,6 +102,7 @@ const Clientes = () => {
 
   const closeForm = () => {
     setShowForm(false)
+    setShowFormBalance(false)
     setClientToUpdate(null)
     fetchClientes()
   }
@@ -139,55 +146,56 @@ const Clientes = () => {
           </div>
         </div>
         <div className={styles.tableContainer}>
-          <table className={styles.clientTable}>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Grado</th>
-                <th>Grupo</th>
-                <th>nivel</th>
-                <th>Saldo</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filterClientes(clientes, searchTerm)
-                .map((row, index) => (
-                  <tr key={index} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
-                    <td className={styles.clientName}>{row.nombreCliente}</td>
-                    <td className={styles.clientLastName}>{row.apellidosCliente}</td>
-                    <td className={styles.clientGrade}>{row.grado}</td>
-                    <td className={styles.clientGroup}>{row.grupo}</td>
-                    <td className={styles.clientCategory}>{row.nivel}</td>
-                    <td>
-                      <span className={`${row.saldo < 0 ? styles.negativeBalance : styles.saldo}`}>
-                        ${row.saldo.toFixed(2)} MXN
-                      </span>
+          {loading ? <Loading /> : (<table className={styles.clientTable}>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Grado</th>
+                  <th>Grupo</th>
+                  <th>Nivel</th>
+                  <th>Saldo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filterClientes(clientes, searchTerm)
+                  .map((row, index) => (
+                    <tr key={index} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
+                      <td className={styles.clientName}>{row.nombreCliente}</td>
+                      <td className={styles.clientLastName}>{row.apellidosCliente}</td>
+                      <td className={styles.clientGrade}>{row.grado}</td>
+                      <td className={styles.clientGroup}>{row.grupo}</td>
+                      <td className={styles.clientCategory}>{row.nivel}</td>
+                      <td>
+                        <span className={`${row.saldo < 0 ? styles.negativeBalance : styles.saldo}`}>
+                          ${row.saldo.toFixed(2)} MXN
+                        </span>
+                      </td>
+                      <td>
+                        <MoreHorizIcon onClick={() => handleShowFormUpdate(row)} style={{ cursor: 'pointer', color: '#000000' }} />
+                        <IconButton onClick={() => handleShowFormUpdate(row)}>
+                          <Image src={PencilIcon} alt={'pencil'} className={styles.pencilIcon} />
+                        </IconButton>
+                        <IconButton onClick={() => handleShowFormBalance(row)}>
+                          <Image src={MinusIcon} alt={'minus'} className={styles.minusIcon} />
+                        </IconButton>
+                        <IconButton onClick={() => console.log(row)}>
+                          <Image src={ArchiveIcon} alt={'archive'} className={styles.archiveIcon} />
+                        </IconButton>
                     </td>
-                    <td>
-                      <MoreHorizIcon onClick={() => handleShowFormUpdate(row)} style={{ cursor: 'pointer', color: '#000000' }} />
-                      <IconButton onClick={() => handleShowFormUpdate(row)}>
-                        <Image src={PencilIcon} alt={'pencil'} className={styles.pencilIcon} />
-                      </IconButton>
-                      <IconButton onClick={() => handleShowFormBalance(row)}>
-                        <Image src={MinusIcon} alt={'minus'} className={styles.minusIcon} />
-                      </IconButton>
-                      <IconButton onClick={() => console.log(row)}>
-                        <Image src={ArchiveIcon} alt={'archive'} className={styles.archiveIcon} />
-                      </IconButton>
-                  </td>
-                  </tr>
-              ))}
-            </tbody>
-          </table>
+                    </tr>
+                ))}
+              </tbody>
+            </table>)
+          }
         </div>
       </section>
-      <Modal open={showForm} onClose={() => setShowForm(false)} className={styles.modal}>
+      <Modal open={showForm} onClose={() => closeForm()} className={styles.modal}>
         <FormClient onClose={() => closeForm()} idTienda={userInfo?.idTienda ?? 0} userData={clientToUpdate as Client} />
       </Modal>
-      <Modal open={showFormBalance} onClose={() => setShowFormBalance(false)} className={styles.modal}>
-        <FormEditBalance onClose={() => setShowFormBalance(false)} cliente={clientToUpdate as Client} idTienda={userInfo?.idTienda ?? 0} />
+      <Modal open={showFormBalance} onClose={() => closeForm()} className={styles.modal}>
+        <FormEditBalance onClose={() => closeForm()} cliente={clientToUpdate as Client} idTienda={userInfo?.idTienda ?? 0} />
       </Modal>
     </>
   );
